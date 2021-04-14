@@ -1,6 +1,6 @@
 module.exports = {
     calculateRemainingDays(job) {
-        const totalDays = Math.round((job.totalHours / job.dailyHours))
+        const totalDays = Math.round((job.totalHoursOfWork / job.dailyHoursOfWork))
     
         const createdDate = new Date(job.createdAt)
         const dueDay = createdDate.getDate() + totalDays
@@ -13,5 +13,5 @@ module.exports = {
     
         return remainingDays
     },
-    calculateBudget: (job, hourValue) => job.totalHours * hourValue
+    calculateBudget: (job, hourValue) => job.totalHoursOfWork * hourValue
 }

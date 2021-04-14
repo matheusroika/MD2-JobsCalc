@@ -1,51 +1,57 @@
-const Database = require('../db/config')
+const { database } = require('../db/config')
 
 
 module.exports = {
     async get() {
-        const db = await Database()
-        const data = await db.all(`SELECT * FROM jobs`)
-        await db.close()
-        return data
+        const db = await database()
+        const filter = {"email":"matheusroika@gmail.com"}
+        //projection is used to control which fields are returned by the find function
+        //0 = don't return, 1 = return
+        const projection = {projection: { _id: 0, jobs: 1}}
+
+        const { jobs } = await db.collection('users').findOne(filter, projection)
+
+        return jobs
     },
 
     async create(newData) {
-        const db = await Database()
-        await db.run(
-            `INSERT INTO jobs (
-                name,
-                dailyHours,
-                totalHours,
-                createdAt
-            ) VALUES (
-                "${newData.name}",
-                ${newData.dailyHours},
-                ${newData.totalHours},
-                ${newData.createdAt}
-            );`
-        )
-        await db.close()
+        const db = await database()
+        const filter = {"email":"matheusroika@gmail.com"}
+
+        newData = {
+            ...newData,
+            id: Number(newData.id),
+            dailyHoursOfWork: Number(newData.dailyHoursOfWork),
+            totalHoursOfWork: Number(newData.totalHoursOfWork)
+        }
+
+        await db.collection("users").updateOne(
+            filter,
+            {$push: {
+                "jobs": newData }})
     },
 
     async update(updatedData, id) {
-        const db = await Database()
+        const db = await database()
+        const filter = {"email":"matheusroika@gmail.com"}
+        const jobsDotNotation = `jobs.${id - 1}`
 
-        await db.run(
-            `UPDATE jobs SET
-            name = "${updatedData.name}",
-            dailyHours = ${updatedData.dailyHours},
-            totalHours = ${updatedData.totalHours}
-            WHERE id = ${id}`
-        )
-
-        await db.close()
+        await db.collection('users').updateOne(
+            filter,
+            {$set: {
+                [`jobs.${id - 1}.name`]: updatedData.name,
+                [`jobs.${id - 1}.dailyHoursOfWork`]: Number(updatedData.dailyHoursOfWork),
+                [`jobs.${id - 1}.totalHoursOfWork`]: Number(updatedData.totalHoursOfWork)}})
     },
 
     async delete(id) {
-        const db = await Database()
+        const db = await database()
+        const filter = {"email":"matheusroika@gmail.com"}
 
-        await db.run(`DELETE FROM jobs WHERE id = ${id}`)
-
-        await db.close()
+        await db.collection("users").updateOne(
+            filter, 
+            {$pull: {
+                "jobs": {
+                    "id": Number(id)}}})
     }
 }

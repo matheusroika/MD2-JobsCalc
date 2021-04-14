@@ -1,78 +1,31 @@
-const Database = require('./config')
+const { connect, database, closeConnection } = require('./config')
 
-async function init() {
-    const db = await Database()
+const user = {
+    "email": "matheusroika@gmail.com",
+    "password": 12345678,
+    "profile": {
+        "name": "Matheus",
+        "lastName": "Roika",
+        "avatar": "https://github.com/matheusroika.png",
+        "monthlySalary": 5000,
+        "workDaysPerWeek": 5,
+        "workHoursPerDay": 5,
+        "vacationWeeksPerYear": 4,
+        "workHourValue": 50
+    },
+    "jobs": [
+        {   
+            "id": 1,
+            "name": "Pizzaria Guloso",
+            "dailyHoursOfWork": 2,
+            "totalHoursOfWork": 20,
+            "createdAt": Date.now()
+        }
+    ]
+};
 
-    await db.exec(
-        `CREATE TABLE profiles (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT,
-            avatar TEXT,
-            monthlyBudget INTEGER,
-            daysPerWeek INTEGER,
-            hoursPerDay INTEGER,
-            vacationPerYear INTEGER,
-            hourValue FLOAT
-        );`
-    )
-
-    await db.exec(
-        `CREATE TABLE jobs (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT,
-            dailyHours INTEGER,
-            totalHours INTEGER,
-            createdAt DATETIME
-        );`
-    )
-
-    await db.run(
-        `INSERT INTO profiles (
-            name,
-            avatar,
-            monthlyBudget,
-            daysPerWeek,
-            hoursPerDay,
-            vacationPerYear
-        ) VALUES (
-            "Matheus",
-            "https://github.com/matheusroika.png",
-            5000,
-            5,
-            6,
-            4
-        );`
-    )
-
-    await db.run(
-        `INSERT INTO jobs (
-            name,
-            dailyHours,
-            totalHours,
-            createdAt
-        ) VALUES (
-            "Pizzaria Guloso",
-            2,
-            1,
-            1618323491386
-        );`
-    )
-
-    await db.run(
-        `INSERT INTO jobs (
-            name,
-            dailyHours,
-            totalHours,
-            createdAt
-        ) VALUES (
-            "OneTwo Project",
-            3,
-            47,
-            1618323491386
-        );`
-    )
-
-    await db.close()
-}
-
-init()
+(async () => {
+    await connect()
+    await database().then((db) => db.collection("users").insertOne(user))
+    await closeConnection()
+})()

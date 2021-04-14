@@ -33,7 +33,7 @@
         <h2><%= profile.name %></h2>
         <p>
           O valor da sua hora é <br/>
-          <strong>R$ <%= profile.hourValue.toFixed(2).replace(".",",") %></strong>
+          <strong>R$ <%= profile.workHourValue.toFixed(2).replace(".",",") %></strong>
         </p>
         <button class="button green" form="form-profile" type="submit">Salvar dados</button>
       </aside>
@@ -68,46 +68,46 @@
 
             <div class="input-group">
               <div class="input-wrapper">
-                <label for="monthlyBudget">Quanto eu <br/>quero ganhar por mês?</label>
+                <label for="monthlySalary">Quanto eu <br/>quero ganhar por mês?</label>
                 <input 
                   type="amount"
                   step="0.1" 
-                  id="monthlyBudget" 
-                  name="monthlyBudget" 
+                  id="monthlySalary" 
+                  name="monthlySalary" 
                   placeholder="R$"
-                  value="<%= profile["monthlyBudget"] %>" />
+                  value="<%= profile.monthlySalary %>" />
               </div>
 
               <div class="input-wrapper">
-                <label for="hoursPerDay">Quantas horas <br/>
+                <label for="workHoursPerDay">Quantas horas <br/>
                   quero trabalhar por dia?</label>
                 <input 
                   type="number"
-                  id="hoursPerDay" 
-                  name="hoursPerDay"
-                  value="<%= profile["hoursPerDay"] %>" />
+                  id="workHoursPerDay" 
+                  name="workHoursPerDay"
+                  value="<%= profile.workHoursPerDay %>" />
               </div>
             </div>
 
             <div class="input-group">
               <div class="input-wrapper">
-                <label for="daysPerWeek">Quantos dias <br/>quero
+                <label for="workDaysPerWeek">Quantos dias <br/>quero
                   trabalhar por semana?</label>
                 <input
                   type="number"
-                  id="daysPerWeek" 
-                  name="daysPerWeek"
-                  value="<%= profile["daysPerWeek"] %>" />
+                  id="workDaysPerWeek" 
+                  name="workDaysPerWeek"
+                  value="<%= profile.workDaysPerWeek %>" />
               </div>
 
               <div class="input-wrapper">
-                <label for="vacationPerYear">Quantas semanas <br/>
+                <label for="vacationWeeksPerYear">Quantas semanas <br/>
                   por ano você quer tirar férias?</label>
                 <input 
                   type="number" 
-                  id="vacationPerYear" 
-                  name="vacationPerYear"
-                  value="<%= profile["vacationPerYear"] %>" />
+                  id="vacationWeeksPerYear" 
+                  name="vacationWeeksPerYear"
+                  value="<%= profile.vacationWeeksPerYear %>" />
               </div>
             </div>
           </fieldset>

@@ -10,8 +10,8 @@ module.exports = {
     async update(req, res) {
         const profile = req.body
 
-        const hourlyBudget = ProfileUtils.calculateHourlyBudget(profile)
-        profile.hourValue = hourlyBudget
+        const hourlySalary = ProfileUtils.calculateHourlySalary(profile)
+        profile.workHourValue = hourlySalary
 
         await Profile.update(profile)
 

@@ -1,13 +1,13 @@
 module.exports = {
-    calculateHourlyBudget(profile) {
-        const yearlyBudget = 12 * profile.monthlyBudget
+    calculateHourlySalary(profile) {
+        const yearlySalary = 12 * profile.monthlySalary
 
         const weeksPerYear = 52
-        const weeksWorkedPerYear = weeksPerYear - profile.vacationPerYear
-        const hoursWorkedPerYear = profile.hoursPerDay * profile.daysPerWeek * weeksWorkedPerYear
+        const weeksWorkedPerYear = weeksPerYear - profile.vacationWeeksPerYear
+        const hoursWorkedPerYear = profile.workHoursPerDay * profile.workDaysPerWeek * weeksWorkedPerYear
 
-        const hourlyBudget = yearlyBudget / hoursWorkedPerYear
+        const hourlySalary = yearlySalary / hoursWorkedPerYear
 
-        return hourlyBudget
+        return hourlySalary
     }
 }

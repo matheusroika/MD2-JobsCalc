@@ -10,7 +10,10 @@ module.exports = {
 
     async create(req, res) {
         const job = req.body
+        const jobs = await Job.get()
         job.createdAt = Date.now()
+
+        job.id = jobs[jobs.length - 1]?.id + 1 || 1
     
         await Job.create(job)
         return res.redirect("/")
@@ -25,7 +28,7 @@ module.exports = {
 
         if (!job) return res.send('Job not found!')
 
-        job.budget = JobUtils.calculateBudget(job, profile.hourValue)
+        job.budget = JobUtils.calculateBudget(job, profile.workHourValue)
 
         return res.render("job-edit", { job })
     },
@@ -35,8 +38,8 @@ module.exports = {
         
         const updatedJob = {
             name: req.body.name,
-            "totalHours": req.body.totalHours,
-            "dailyHours": req.body.dailyHours,
+            "dailyHoursOfWork": req.body.dailyHoursOfWork,
+            "totalHoursOfWork": req.body.totalHoursOfWork,  
         }
 
         await Job.update(updatedJob, id)
