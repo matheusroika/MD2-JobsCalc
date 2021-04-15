@@ -1,9 +1,14 @@
 const express = require('express')
 const routes = express.Router()
 
+const LoginAndRegisterController = require('./controllers/LoginAndRegisterController')
 const DashboardController = require('./controllers/DashboardController')
 const JobController = require('./controllers/JobController')
 const ProfileController = require('./controllers/ProfileController')
+
+routes.get('/login', LoginAndRegisterController.index)
+routes.post('/login', (req, res) => res.send('Login'))
+routes.post('/register', (req, res) => res.send('Register'))
 
 routes.get('/', DashboardController.index)
 
