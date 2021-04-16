@@ -1,8 +1,12 @@
+require('dotenv').config()
+
 const express = require("express")
 const server = express()
 
 const routes = require("./routes")
 const path = require("path")
+
+const PORT = process.env.PORT || 3000
 
 const { connect } = require("./db/config")
 
@@ -13,6 +17,16 @@ server.set('views', path.join(__dirname, 'views'))
 
 server.use(express.static("public"))
 server.use(express.urlencoded({ extended: true }))
+
+require('./passport')(server)
 server.use(routes)
 
-server.listen(3000, () => console.log("Server is running"))
+server.use((error, req, res, next) => {
+    console.error(error)
+    res.render('error', {
+        user: req.user,
+        error
+    })
+})
+
+server.listen(PORT, () => console.log(`Server is listening on port ${PORT}`))

@@ -28,25 +28,31 @@
 /* 
  * avatar
 /* -------------------------------------------------- */
-#avatar-profile {
+#profile {
   display: flex;
   align-items: center;
-  color: var(--color-white);
-  text-decoration: none;
 
   font-family: IBM Plex Sans;
   text-align: right;
 }
 
-#avatar-profile p {
+#profile a {
+  color: var(--color-white);
+  text-decoration: none;
+}
+
+#profile div {
+  margin-right: 1.25rem;
+}
+
+#avatar-name {
   font-size: 1.25rem; /* 20px of 16px root*/
   line-height: 1.875rem; /*30px of 16px root*/
-  margin-right: 1.25rem;
 
   font-weight: 600;
 }
 
-#avatar-profile span {
+#logout {
   display: block;
 
   font-weight: normal;
@@ -56,12 +62,12 @@
   font-weight: 400;
 }
 
-#avatar-profile p span:hover {
+#logout:hover {
   text-decoration: underline;
   color:var(--color-secondary);
 }
 
-#avatar-profile img {
+#profile-avatar {
   width: 4rem; /* 64px of 16px root*/
   height: 4rem; /* 64px of 16px root*/
   border-radius: 50%;

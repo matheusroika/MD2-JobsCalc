@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="/styles/partials/buttons.css" />
     <link rel="stylesheet" href="/styles/partials/forms.css" />
     <link rel="stylesheet" href="/styles/partials/animations.css" />
-    <link rel="stylesheet" href="/styles/pages/login-and-register.css" />
+    <link rel="stylesheet" href="/styles/pages/auth.css" />
 
     <link rel="preconnect" href="https://fonts.gstatic.com" />
     <link
@@ -24,22 +24,51 @@
 
   </head>
 
-  <body id="page-index">
+  <body id="page-index"> 
     <header class="page-header">
       <div class="container">
         <section id="top" class="animate-up">
           <h2 class="sr-only">Login e Registro</h2>
           <img id="logo" src="/images/logo.svg" alt="Logo" />
           <span id="description">
-            Calcule o valor de seus projetos freelancer
+            Calcule o valor de seus projetos freelance
           </span>
         </section>
       </div>
     </header>
+
+    <% if (message['error']) { %>
+      <div class="error"><p><%= message['error'] %></p></div>
+      <script>
+        const errorElement = document.querySelector('.error')
+        errorElement.classList.add('animate-down-in', 'back')
+        setTimeout(() => {
+          errorElement.classList.remove('animate-down-in')
+          setTimeout(() => {
+            errorElement.classList.add('animate-up-out')
+            setTimeout(() => errorElement.style.display = 'none', 2000)
+          }, 3500)
+        }, 1500)
+      </script>
+    <% } else if (message['success']) { %>
+      <div class="success"><p><%= message['success'] %></p></div>
+      <script>
+        const successElement = document.querySelector('.success')
+        successElement.classList.add('animate-down-in', 'back')
+        setTimeout(() => {
+          successElement.classList.remove('animate-down-in')
+          setTimeout(() => {
+            successElement.classList.add('animate-up-out')
+            setTimeout(() => errorElement.style.display = 'none', 2000)
+          }, 3500)
+        }, 1500)
+      </script>
+    <% } %> 
+
     <div class="container flex animate-up delay-2">
       <main>
         <div class="card">
-        <form id="form-login" method="POST">
+        <form id="form-login" method="POST" action="/login">
           <fieldset>
             <legend>Login</legend>
 
@@ -48,14 +77,14 @@
             <div class="input-group">
               <div class="input-wrapper" style="width: 100%">
                 <label for="email">Email</label>
-                <input type="email" id="email" name="email" value="" />
+                <input type="email" id="loginEmail" name="email" value="" required/>
               </div>
             </div>
 
             <div class="input-group">
               <div class="input-wrapper" style="width: 100%">
                 <label for="password">Senha</label>
-                <input type="password" id="password" name="password" value="" />
+                <input type="password" id="loginPassword" name="password" value="" required/>
               </div>
             </div>
           </fieldset>
@@ -79,25 +108,25 @@
             <div class="input-group">
               <div class="input-wrapper">
                 <label for="name">Nome</label>
-                <input type="name" id="name" name="name" value="" />
+                <input type="name" id="name" name="name" value="" required/>
               </div>
 
               <div class="input-wrapper">
                 <label for="lastName">Sobrenome</label>
-                <input type="lastName" id="lastName" name="lastName" value="" />
+                <input type="lastName" id="lastName" name="lastName" value="" required/>
               </div>
             </div>
 
             <div class="input-group">
               <div class="input-wrapper">
                 <label for="email">Email</label>
-                <input type="email" id="email" name="email" value="" />
+                <input type="email" id="registerEmail" name="email" value="" required/>
               </div>
 
               
               <div class="input-wrapper">
                 <label for="password">Senha</label>
-                <input type="password" id="password" name="password" value="" />
+                <input type="password" id="registerPassword" name="password" value="" pattern=".{6,}" title="Sua senha deve ter 6 ou mais caracteres." required/>
               </div>
             </div>
             </fieldset>

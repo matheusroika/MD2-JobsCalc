@@ -16,6 +16,7 @@
   animation: up 200ms forwards;
 }
 
+
 @keyframes pop {
   from {
     opacity: 0;
@@ -51,4 +52,25 @@
 
 .delay-2 {
   animation-delay: 200ms;
+}
+
+@keyframes up-out {
+  from {
+    transform: translateY(0)
+  }
+  to {
+    transform: translateY(-5rem)
+  } 
+}
+
+.animate-up-out {
+  transform: translateY(0);
+
+  animation: 1.5s up-out forwards;
+}
+
+.animate-down-in {
+  transform: translateY(0);
+
+  animation: 1s up-out reverse;
 }

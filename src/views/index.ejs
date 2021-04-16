@@ -38,10 +38,17 @@
               Você tem <%= freeHours %> horas livres no seu dia
             <% } %> 
           </span>
-          <a href="/profile" id="avatar-profile">
-            <p><%= profile.name %> <span>Ver perfil</span></p>
-            <img src="<%= profile.avatar %>"/>
-          </a>
+          <div id="profile">
+            <div>
+              <a href="/profile">
+                <p id="profile-name"><%= profile.name %></p>
+              </a>
+              <a href="/logout" id="logout">Sair</a>
+            </div>
+            <a href="/profile">
+              <img id="profile-avatar" src="<%= profile.avatar %>"/>
+            </a>
+          </div>
         </section>
 
         <div class="separator"></div>

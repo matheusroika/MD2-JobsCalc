@@ -1,0 +1,91 @@
+.error, .success {
+    z-index: -1;
+    position: absolute;
+    left: 25%;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    padding: 1rem;
+
+    border-radius: 0 0 0.313rem 0.313rem;
+    border: 0;
+}
+
+.error {
+    background-color: var(--color-delete);
+}
+
+.success {
+    background-color: var(--color-save);
+}
+
+#top {
+    display: flex;
+    align-items: center;
+}
+  
+#logo {
+    width: 13rem;
+    height: 3rem;
+}
+  
+/* 
+* description
+/* -------------------------------------------------- */
+#description {
+    display: flex;
+    align-items: center;
+  
+    font-family: Inter;
+    font-weight: 500;
+    font-size: 1.2rem;
+
+    margin-left: 2rem;
+}
+
+main {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 4rem;
+}
+
+.card {
+    width: 35%;
+    padding: 3rem;
+    margin-right: 8rem;
+}
+
+#form-register {
+    margin-top: 3rem;
+    width: 70%;
+}
+
+.button {
+    margin-top: 2rem;
+}
+
+@media(max-width: 1000px) {
+    main {
+        flex-direction: column;
+    }
+
+    .card {
+        width: 50%;
+        margin: 0 auto;
+    }
+
+    #form-register {
+        margin: 3rem auto;
+    }
+}
+
+@media(max-width: 700px) {
+    .card {
+        width: 70%;
+    }
+
+    #form-register {
+        width: 100%
+    }
+}

@@ -1,7 +1,6 @@
 const MongoClient = require('mongodb').MongoClient;
-//import credentials to authenticate to the database
-const { user, password, uri } = require('./credentials')
-const url = `mongodb+srv://${user}:${password}@${uri}?retryWrites=true&w=majority`;
+
+const url = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}?retryWrites=true&w=majority`;
 
 const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true });
 
