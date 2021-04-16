@@ -1,4 +1,4 @@
-const Auth = require('../model/Auth')
+const User = require('../model/User')
 
 const argon2 = require('argon2')
 
@@ -10,27 +10,27 @@ module.exports = {
     logout(req, res) {
         req.logout()
         req.session.destroy()
-        res.redirect('/auth')
+        return res.redirect('/auth')
     },
 
     async register(req, res, next) {
         const user = req.body
         
-        const isCreated = await Auth.createUser(user)
+        const isCreated = await User.create(user)
 
         if (isCreated === 'Missing field') {
             req.flash('error', 'O formulário não foi totalmente preenchido.')
-            res.redirect('/auth')
-        } else if (isCreated === 'User already exists'){
-            req.flash('error', 'Esse email já está cadastrado.')
-            res.redirect('/auth')
+        } else if (isCreated === 'Invalid password'){
+            req.flash('error', 'Sua senha deve ter 6 ou mais caracteres.')
         } else if (isCreated === 'Invalid email'){
             req.flash('error', 'Esse email é inválido.')
-            res.redirect('/auth')
+        }else if (isCreated === 'User already exists'){
+            req.flash('error', 'Esse email já está cadastrado.')
         } else {
             req.flash('success', 'Sua conta foi criada. Por favor, confirme seu email.')
-            return res.redirect('/auth')
         }
+
+        return res.redirect('/auth')
     },
 
     async validatePassword(userPassword, typedPassword) {
@@ -41,13 +41,13 @@ module.exports = {
         if (req.isAuthenticated()) {
             return next()
         }
-        res.redirect('/auth')
+        return res.redirect('/auth')
     },
 
     forwardAuthenticated(req, res, next) {
         if(!req.isAuthenticated()) {
             return next()
         }
-        res.redirect('/')
+        return res.redirect('/')
     }
 }

@@ -2,9 +2,8 @@ module.exports = {
     calculateRemainingDays(job) {
         const totalDays = Math.round((job.totalHoursOfWork / job.dailyHoursOfWork))
     
-        const createdDate = new Date(job.createdAt)
-        const dueDay = createdDate.getDate() + totalDays
-        const dueDateInMs = createdDate.setDate(dueDay)
+        const dueDay = job.createdAt.getDate() + totalDays
+        const dueDateInMs = job.createdAt.setDate(dueDay)
     
         const remainingDaysInMs = dueDateInMs - Date.now()
         

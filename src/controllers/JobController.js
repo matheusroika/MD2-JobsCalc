@@ -5,7 +5,7 @@ const JobUtils = require('../utils/JobUtils')
 
 module.exports = {
     index(req, res) {
-        return res.render("job")
+        return res.render("job", { message: req.flash() })
     },
 
     async create(req, res) {
@@ -13,9 +13,18 @@ module.exports = {
         const jobs = await Job.get()
         job.createdAt = Date.now()
 
-        job.id = jobs[jobs.length - 1]?.id + 1 || 1
+        job._id = jobs[jobs.length - 1]?._id + 1 || 1
     
-        await Job.create(job)
+        const isCreated = await Job.create(job)
+
+        if (isCreated === 'Missing field') {
+            req.flash('error', 'O formulário não foi totalmente preenchido.')
+            return res.redirect("/job")
+        } else if (isCreated === 'Invalid value') {
+            req.flash('error', 'Valor inserido é inválido.')
+            return res.redirect("/job")
+        }
+
         return res.redirect("/")
     },
 
@@ -23,34 +32,34 @@ module.exports = {
         const jobs = await Job.get()
         const profile = await Profile.get()
 
-        const id = req.params.id
-        const job = jobs.find(job => job.id == id)
+        const _id = req.params.id
+        const job = jobs.find(job => job._id == _id)
 
         if (!job) return res.send('Job not found!')
 
         job.budget = JobUtils.calculateBudget(job, profile.workHourValue)
 
-        return res.render("job-edit", { job })
+        return res.render("job-edit", { job, message: req.flash() })
     },
 
     async update(req, res) {
-        const id = req.params.id
-        
-        const updatedJob = {
-            name: req.body.name,
-            "dailyHoursOfWork": req.body.dailyHoursOfWork,
-            "totalHoursOfWork": req.body.totalHoursOfWork,  
+        const _id = req.params.id
+
+        const isUpdated = await Job.update(req.body, _id)
+
+        if (isUpdated === 'Missing field') {
+            req.flash('error', 'O formulário não foi totalmente preenchido.')
+        } else if (isUpdated === 'Invalid value') {
+            req.flash('error', 'Valor inserido é inválido.')
         }
 
-        await Job.update(updatedJob, id)
-
-        res.redirect('/job/' + id)
+        return res.redirect('/job/' + _id)
     },
 
     async delete(req, res) {
-        const id = req.params.id
+        const _id = req.params.id
         
-        await Job.delete(id)
+        await Job.delete(_id)
 
         return res.redirect('/')
     }

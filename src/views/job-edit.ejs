@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="/styles/partials/forms.css" />
     <link rel="stylesheet" href="/styles/partials/modal.css" />
     <link rel="stylesheet" href="/styles/partials/animations.css" />
+    <link rel="stylesheet" href="/styles/partials/flash.css" />
     <link rel="stylesheet" href="/styles/pages/job.css" />
 
     <link rel="preconnect" href="https://fonts.gstatic.com" />
@@ -28,9 +29,11 @@
   </head>
   <body id="page-job-edit">
 
-    <%- include('parts/page-header', { title: 'Editar Job' }) %> 
+    <%- include('parts/page-header', { title: 'Editar Job' }) %>
 
-    <div class="container flex animate-up delay-2">
+    <%- include('parts/flash', { message }) %>
+
+    <div class="container flex animate-up delay-2 margin">
         <form id="form-job" method="POST">
           <fieldset>
             <legend>Dados do Job</legend>
@@ -43,7 +46,7 @@
                 id="name" 
                 name="name"
                 value="<%= job.name %>"
-              />
+                required />
             </div>
 
             <div class="input-group">
@@ -55,7 +58,8 @@
                   step="0.1" 
                   id="dailyHoursOfWork" 
                   name="dailyHoursOfWork"
-                  value="<%= job.dailyHoursOfWork %>"/>
+                  value="<%= job.dailyHoursOfWork %>"
+                  required />
               </div>
 
               <div class="input-wrapper">
@@ -65,7 +69,8 @@
                   type="number"
                   id="totalHoursOfWork" 
                   name="totalHoursOfWork"
-                  value=<%= job.totalHoursOfWork %> />
+                  value=<%= job.totalHoursOfWork %>
+                  required />
               </div>
             </div>
           </fieldset>

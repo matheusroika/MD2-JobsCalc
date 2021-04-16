@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="/styles/partials/buttons.css" />
     <link rel="stylesheet" href="/styles/partials/forms.css" />
     <link rel="stylesheet" href="/styles/partials/animations.css" />
+    <link rel="stylesheet" href="/styles/partials/flash.css" />
     <link rel="stylesheet" href="/styles/pages/auth.css" />
 
     <link rel="preconnect" href="https://fonts.gstatic.com" />
@@ -37,33 +38,7 @@
       </div>
     </header>
 
-    <% if (message['error']) { %>
-      <div class="error"><p><%= message['error'] %></p></div>
-      <script>
-        const errorElement = document.querySelector('.error')
-        errorElement.classList.add('animate-down-in', 'back')
-        setTimeout(() => {
-          errorElement.classList.remove('animate-down-in')
-          setTimeout(() => {
-            errorElement.classList.add('animate-up-out')
-            setTimeout(() => errorElement.style.display = 'none', 2000)
-          }, 3500)
-        }, 1500)
-      </script>
-    <% } else if (message['success']) { %>
-      <div class="success"><p><%= message['success'] %></p></div>
-      <script>
-        const successElement = document.querySelector('.success')
-        successElement.classList.add('animate-down-in', 'back')
-        setTimeout(() => {
-          successElement.classList.remove('animate-down-in')
-          setTimeout(() => {
-            successElement.classList.add('animate-up-out')
-            setTimeout(() => errorElement.style.display = 'none', 2000)
-          }, 3500)
-        }, 1500)
-      </script>
-    <% } %> 
+    <%- include('parts/flash', { message }) %>
 
     <div class="container flex animate-up delay-2">
       <main>
@@ -107,18 +82,6 @@
 
             <div class="input-group">
               <div class="input-wrapper">
-                <label for="name">Nome</label>
-                <input type="name" id="name" name="name" value="" required/>
-              </div>
-
-              <div class="input-wrapper">
-                <label for="lastName">Sobrenome</label>
-                <input type="lastName" id="lastName" name="lastName" value="" required/>
-              </div>
-            </div>
-
-            <div class="input-group">
-              <div class="input-wrapper">
                 <label for="email">Email</label>
                 <input type="email" id="registerEmail" name="email" value="" required/>
               </div>
@@ -129,7 +92,19 @@
                 <input type="password" id="registerPassword" name="password" value="" pattern=".{6,}" title="Sua senha deve ter 6 ou mais caracteres." required/>
               </div>
             </div>
-            </fieldset>
+
+            <div class="input-group">
+              <div class="input-wrapper">
+                <label for="name">Nome</label>
+                <input type="name" id="name" name="name" value="" required/>
+              </div>
+
+              <div class="input-wrapper">
+                <label for="lastName">Sobrenome</label>
+                <input type="lastName" id="lastName" name="lastName" value="" required/>
+              </div>
+            </div>        
+          </fieldset>
             
             <button 
               class="button orange" 

@@ -1,0 +1,27 @@
+<% if (message['error']) { %>
+    <div class="error"><p><%= message['error'] %></p></div>
+    <script>
+      const errorElement = document.querySelector('.error')
+      errorElement.classList.add('animate-down-in', 'back')
+      setTimeout(() => {
+        errorElement.classList.remove('animate-down-in')
+        setTimeout(() => {
+          errorElement.classList.add('animate-up-out')
+          setTimeout(() => errorElement.style.display = 'none', 2000)
+        }, 3500)
+      }, 1500)
+    </script>
+  <% } else if (message['success']) { %>
+    <div class="success"><p><%= message['success'] %></p></div>
+    <script>
+      const successElement = document.querySelector('.success')
+      successElement.classList.add('animate-down-in', 'back')
+      setTimeout(() => {
+        successElement.classList.remove('animate-down-in')
+        setTimeout(() => {
+          successElement.classList.add('animate-up-out')
+          setTimeout(() => errorElement.style.display = 'none', 2000)
+        }, 3500)
+      }, 1500)
+    </script>
+  <% } %>

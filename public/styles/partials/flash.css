@@ -1,0 +1,20 @@
+.error, .success {
+    z-index: -1;
+    position: absolute;
+    left: 25%;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    padding: 1rem;
+
+    border-radius: 0 0 0.313rem 0.313rem;
+    border: 0;
+}
+
+.error {
+    background-color: var(--color-delete);
+}
+
+.success {
+    background-color: var(--color-save);
+}

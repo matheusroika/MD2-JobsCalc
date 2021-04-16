@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="/styles/partials/buttons.css" />
     <link rel="stylesheet" href="/styles/partials/forms.css" />
     <link rel="stylesheet" href="/styles/partials/animations.css" />
+    <link rel="stylesheet" href="/styles/partials/flash.css" />
     <link rel="stylesheet" href="/styles/pages/profile.css" />
 
     <link rel="preconnect" href="https://fonts.gstatic.com" />
@@ -27,7 +28,9 @@
 
     <%- include('parts/page-header', { title: 'Meu Perfil' }) %> 
 
-    <div class="container animate-up delay-2">
+    <%- include('parts/flash', { message }) %>
+
+    <div class="container animate-up delay-2 margin">
       <aside class="card">
         <img src="<%= profile.avatar %>"  alt="<%= profile.name %>">
         <h2><%= profile.name %></h2>
@@ -47,7 +50,7 @@
             <div class="input-group">
               <div class="input-wrapper">
                 <label for="name">Nome</label>
-                <input type="text" id="name" name="name" value="<%= profile.name %>" />
+                <input type="text" id="name" name="name" value="<%= profile.name %>" required />
               </div>
 
               <div class="input-wrapper">
@@ -57,7 +60,8 @@
                 type="url" 
                 id="avatar" 
                 name="avatar"
-                value="<%= profile.avatar %>" />
+                value="<%= profile.avatar %>"
+                required />
               </div>
             </div>
           </fieldset>
@@ -75,7 +79,8 @@
                   id="monthlySalary" 
                   name="monthlySalary" 
                   placeholder="R$"
-                  value="<%= profile.monthlySalary %>" />
+                  value="<%= profile.monthlySalary %>"
+                  required />
               </div>
 
               <div class="input-wrapper">
@@ -85,7 +90,8 @@
                   type="number"
                   id="workHoursPerDay" 
                   name="workHoursPerDay"
-                  value="<%= profile.workHoursPerDay %>" />
+                  value="<%= profile.workHoursPerDay %>"
+                  required />
               </div>
             </div>
 
@@ -97,7 +103,8 @@
                   type="number"
                   id="workDaysPerWeek" 
                   name="workDaysPerWeek"
-                  value="<%= profile.workDaysPerWeek %>" />
+                  value="<%= profile.workDaysPerWeek %>"
+                  required />
               </div>
 
               <div class="input-wrapper">
@@ -107,7 +114,8 @@
                   type="number" 
                   id="vacationWeeksPerYear" 
                   name="vacationWeeksPerYear"
-                  value="<%= profile.vacationWeeksPerYear %>" />
+                  value="<%= profile.vacationWeeksPerYear %>"
+                  required />
               </div>
             </div>
           </fieldset>

@@ -1,5 +1,3 @@
-require('dotenv').config()
-
 const express = require("express")
 const server = express()
 
@@ -20,13 +18,5 @@ server.use(express.urlencoded({ extended: true }))
 
 require('./passport')(server)
 server.use(routes)
-
-server.use((error, req, res, next) => {
-    console.error(error)
-    res.render('error', {
-        user: req.user,
-        error
-    })
-})
 
 server.listen(PORT, () => console.log(`Server is listening on port ${PORT}`))

@@ -1,57 +1,54 @@
-const { database } = require('../db/config')
+const { User } = require('../model/User')
 
 
 module.exports = {
     async get() {
-        const db = await database()
-        const filter = {"email":"matheusroika@gmail.com"}
-        //projection is used to control which fields are returned by the find function
-        //0 = don't return, 1 = return
-        const projection = {projection: { _id: 0, jobs: 1}}
+        const filter = {email:"matheusroika@gmail.com"}
 
-        const { jobs } = await db.collection('users').findOne(filter, projection)
+        const { jobs } = await User.findOne(filter, 'jobs')
 
         return jobs
     },
 
     async create(newData) {
-        const db = await database()
-        const filter = {"email":"matheusroika@gmail.com"}
-
-        newData = {
-            ...newData,
-            id: Number(newData.id),
-            dailyHoursOfWork: Number(newData.dailyHoursOfWork),
-            totalHoursOfWork: Number(newData.totalHoursOfWork)
+        for (item of Object.values(newData)) {
+            if (!item) return 'Missing field'
         }
 
-        await db.collection("users").updateOne(
-            filter,
-            {$push: {
-                "jobs": newData }})
+        if (!isNaN(newData.dailyHoursOfWork) || !isNaN(newData.totalHoursOfWork)) return 'Invalid value'
+
+        const filter = {email:"matheusroika@gmail.com"}
+
+        const user = await User.findOne(filter)
+        user.jobs.push(newData)
+        await user.save()
     },
 
-    async update(updatedData, id) {
-        const db = await database()
-        const filter = {"email":"matheusroika@gmail.com"}
-        const jobsDotNotation = `jobs.${id - 1}`
+    async update(updatedData, _id) {
+        for (item of Object.values(updatedData)) {
+            if (!item) return 'Missing field'
+        }
 
-        await db.collection('users').updateOne(
-            filter,
-            {$set: {
-                [`jobs.${id - 1}.name`]: updatedData.name,
-                [`jobs.${id - 1}.dailyHoursOfWork`]: Number(updatedData.dailyHoursOfWork),
-                [`jobs.${id - 1}.totalHoursOfWork`]: Number(updatedData.totalHoursOfWork)}})
+        if (!isNaN(updatedData.dailyHoursOfWork) || !isNaN(updatedData.totalHoursOfWork)) return 'Invalid value'
+
+        const filter = {email:"matheusroika@gmail.com"}
+
+        const user = await User.findOne(filter)
+        user.jobs.map(job => {
+            if(job._id == _id) {
+                for (property in updatedData) {
+                    job[property] = updatedData[property]
+                }
+            }
+        })
+        await user.save()
     },
 
-    async delete(id) {
-        const db = await database()
-        const filter = {"email":"matheusroika@gmail.com"}
+    async delete(_id) {
+        const filter = {email:"matheusroika@gmail.com"}
 
-        await db.collection("users").updateOne(
-            filter, 
-            {$pull: {
-                "jobs": {
-                    "id": Number(id)}}})
+        const user = await User.findOne(filter)
+        await user.jobs.pull(_id)
+        await user.save()
     }
 }

@@ -1,40 +1,24 @@
-const { database } = require('../db/config')
-
+const { User } = require('../model/User')
 const ProfileUtils = require('../utils/ProfileUtils')
 
 module.exports = {
     async get() {
-        const db = await database()
-        const filter = {"email":"matheusroika@gmail.com"}
-        //projection is used to control which fields are returned by the find function
-        //0 = don't return, 1 = return
-        const projection = {projection: {_id: 0, profile: 1}}
+        const filter = {email: "matheusroika@gmail.com"}
 
-        const { profile } = await db.collection('users').findOne(filter, projection)
-
-        if (profile.hourValue === null) {
-            profile.hourValue = ProfileUtils.calculateHourlyBudget(profile)
-        }
+        const profile = await User.findOne(filter, 'name lastName avatar monthlySalary workDaysPerWeek workHoursPerDay vacationWeeksPerYear workHourValue')
 
         return profile
     },
 
     async update(newData) {
-        const db = await database()
-        const filter = {"email":"matheusroika@gmail.com"}
-
-        newData = {
-            ...newData,
-            monthlySalary: Number(newData.monthlySalary),
-            workHoursPerDay: Number(newData.workHoursPerDay),
-            workDaysPerWeek: Number(newData.workDaysPerWeek),
-            vacationWeeksPerYear: Number(newData.vacationWeeksPerYear),
-            workHourValue: Number(newData.workHourValue),
+        for (item of Object.values(newData)) {
+            if (!item) return 'Missing field'
         }
+
+        if (!isNaN(newData.monthlySalary) || !isNaN(newData.workHoursPerDay) || !isNaN(newData.workDaysPerWeek) || !isNaN(newData.vacationWeeksPerYear)) return 'Invalid value'
+
+        const filter = {email:"matheusroika@gmail.com"}
         
-        await db.collection('users').updateOne(
-            filter, 
-            {$set: {
-                "profile": newData}})
+        await User.findOneAndUpdate(filter, newData)
     }
 }

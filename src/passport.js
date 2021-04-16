@@ -2,9 +2,9 @@ const session = require('express-session')
 const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
 const flash = require('connect-flash')
-const { ObjectId } = require('mongodb')
+const mongoose = require('mongoose')
 
-const { database } = require('./db/config')
+const { User } = require('./model/User')
 const { validatePassword } = require('./controllers/AuthController')
 
 module.exports = (server) => {
@@ -31,17 +31,15 @@ module.exports = (server) => {
     })
 
     passport.deserializeUser(async (userId, done) => {
-        const db = await database()
-        await db.collection('users').findOne({_id: ObjectId(userId)})
+        await User.findById(userId)
             .then(user => done(null, user))
             .catch(err => done(err))
     })
 
     passport.use(new LocalStrategy({ usernameField: 'email' }, async (email, password, done) => {
-        const db = await database()
         const errorMsg = 'Email ou senha inválidos'
 
-        await db.collection('users').findOne({email})
+        await User.findOne({email})
             .then(async user => {
                 if (!user) {
                     return done(null, false, {message: errorMsg})

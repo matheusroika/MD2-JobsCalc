@@ -5,7 +5,7 @@ const JobUtils = require('../utils/JobUtils')
 
 module.exports = {
     async index(req, res) {
-        const jobs = await Job.get()
+        const jobs = await Job.get().then(jobs => jobs.toObject())
         const profile = await Profile.get()
 
         const jobsCount = {
@@ -23,7 +23,7 @@ module.exports = {
 
             jobsCount[status] += 1
             
-            if (status == 'progress') jobTotalHours += Number(job.dailyHoursOfWork)
+            if (status == 'progress') jobTotalHours += job.dailyHoursOfWork
 
             return {
                 ...job,

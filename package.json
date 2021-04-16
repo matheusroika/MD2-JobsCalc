@@ -4,8 +4,8 @@
   "description": "Freelance Jobs Calculator",
   "main": "src/server.js",
   "scripts": {
-    "dev": "nodemon .",
-    "init-db": "node src/db/init.js"
+    "dev": "nodenv . --exec nodemon",
+    "init-db": "nodenv src/db/init.js"
   },
   "keywords": [],
   "author": "",
@@ -13,15 +13,15 @@
   "dependencies": {
     "argon2": "^0.27.2",
     "connect-flash": "^0.1.1",
-    "dotenv": "^8.2.0",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
-    "mongodb": "^3.6.6",
+    "mongoose": "^5.12.4",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0"
   },
   "devDependencies": {
+    "node-env-run": "^4.0.2",
     "nodemon": "^2.0.7"
   }
 }

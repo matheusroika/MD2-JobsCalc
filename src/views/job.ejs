@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="/styles/partials/buttons.css" />
     <link rel="stylesheet" href="/styles/partials/forms.css" />
     <link rel="stylesheet" href="/styles/partials/animations.css" />
+    <link rel="stylesheet" href="/styles/partials/flash.css" />
     <link rel="stylesheet" href="/styles/pages/job.css" />
 
     <link rel="preconnect" href="https://fonts.gstatic.com" />
@@ -27,7 +28,9 @@
 
     <%- include('parts/page-header', { title: 'Adicionar Novo Job' }) %> 
 
-    <div class="container flex animate-up delay-2">
+    <%- include('parts/flash', { message }) %>
+
+    <div class="container flex animate-up delay-2 margin">
       <main>
         <form id="form-job" method="POST">
           <fieldset>
@@ -36,7 +39,7 @@
 
             <div class="input-wrapper">
               <label for="name">Nome do Job</label>
-              <input type="text" id="name" name="name" />
+              <input type="text" id="name" name="name" required />
             </div>
 
             <div class="input-group">
@@ -47,7 +50,8 @@
                   type="number"
                   step="0.1" 
                   id="dailyHoursOfWork" 
-                  name="dailyHoursOfWork"/>
+                  name="dailyHoursOfWork" 
+                  required />
               </div>
 
               <div class="input-wrapper">
@@ -56,7 +60,8 @@
                 <input 
                   type="number"
                   id="totalHoursOfWork" 
-                  name="totalHoursOfWork" />
+                  name="totalHoursOfWork"
+                  required />
               </div>
             </div>
           </fieldset>
