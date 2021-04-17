@@ -32,11 +32,19 @@
 
     <div class="container animate-up delay-2 margin">
       <aside class="card">
-        <img src="<%= profile.avatar %>"  alt="<%= profile.name %>">
+        <% if (profile.avatar) { %>
+          <img src="<%= profile.avatar %>"  alt="<%= profile.name %>">
+        <% } else { %>
+          <img src="https://i.imgur.com/sZwgIsH.jpg" alt="<%= profile.name %>">
+        <% } %>
         <h2><%= profile.name %></h2>
         <p>
-          O valor da sua hora é <br/>
-          <strong>R$ <%= profile.workHourValue.toFixed(2).replace(".",",") %></strong>
+          <% if (profile.workHourValue) { %> 
+            O valor da sua hora é <br/>
+            <strong>R$ <%= profile.workHourValue.toFixed(2).replace(".",",") %></strong>
+          <% } else { %>
+            Calcule o valor da sua hora preenchendo os valores ao lado.
+          <% } %>  
         </p>
         <button class="button green" form="form-profile" type="submit">Salvar dados</button>
       </aside>
@@ -60,8 +68,7 @@
                 type="url" 
                 id="avatar" 
                 name="avatar"
-                value="<%= profile.avatar %>"
-                required />
+                value="<%= profile.avatar %>" />
               </div>
             </div>
           </fieldset>

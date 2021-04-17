@@ -46,7 +46,11 @@
               <a href="/logout" id="logout">Sair</a>
             </div>
             <a href="/profile">
-              <img id="profile-avatar" src="<%= profile.avatar %>"/>
+              <% if (profile.avatar) { %> 
+                <img id="profile-avatar" src="<%= profile.avatar %>"/>
+              <% } else { %> 
+                <img id="profile-avatar" src="https://i.imgur.com/sZwgIsH.jpg"/>
+              <% } %> 
             </a>
           </div>
         </section>

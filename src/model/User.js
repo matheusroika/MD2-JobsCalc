@@ -29,7 +29,7 @@ const User = mongoose.model('User', userSchema)
 module.exports = {
     User,
 
-    async create(user) {
+    async create(user, url) {
         for (item of Object.values(user)) {
             if (!item) return 'Missing field'
         }
@@ -45,8 +45,51 @@ module.exports = {
         
         const newUser = new User(user)
 
+        //email confirmation
+        const jwt = require('jsonwebtoken')
+        const token = jwt.sign({id: newUser.id}, process.env.JWT_SECRET)
+
+        const confirmationLink = url + token
+
+        const sgMail = require('@sendgrid/mail')
+        sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+        const msg = {
+            to: newUser.email,
+            from: {
+                email: process.env.SENDGRID_EMAIL,
+                name: 'JobsCalc'
+            },
+            subject: 'Confirme sua conta',
+            dynamic_template_data: {
+                "name": newUser.name,
+                "confirmationLink": confirmationLink,
+            },
+            template_id: process.env.SENDGRID_TEMPLATE_ID
+        }
+        sgMail.send(msg)
+            .then(() => {
+                console.log('Email sent')
+            })
+            .catch((error) => {
+                console.error(error)
+            })
+
         await newUser.save()
 
-        return true
+        return newUser
+    },
+
+    async confirmEmail(id) {
+        const user = await User.findById(id)
+        if (user) {
+            if (user.active) {
+                return 'User already confirmed'
+            } else {
+                user.active = true
+                return user
+            }
+        } else {
+            return 'Invalid token'
+        }
     }
 }

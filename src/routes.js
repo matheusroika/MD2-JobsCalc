@@ -12,6 +12,8 @@ routes.get('/logout', AuthController.ensureAuthenticated, AuthController.logout)
 routes.post('/login', passport.authenticate('local', { successRedirect: '/', failureRedirect: '/auth', failureFlash: true }))
 routes.post('/register', AuthController.register)
 
+routes.get('/register/:token', AuthController.forwardAuthenticated, AuthController.token)
+
 routes.get('/', AuthController.ensureAuthenticated, DashboardController.index)
 
 routes.get('/job', AuthController.ensureAuthenticated, JobController.index)

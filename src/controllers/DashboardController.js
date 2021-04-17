@@ -5,8 +5,10 @@ const JobUtils = require('../utils/JobUtils')
 
 module.exports = {
     async index(req, res) {
-        const jobs = await Job.get().then(jobs => jobs.toObject())
-        const profile = await Profile.get()
+        const userId = req.user.id
+
+        const jobs = await Job.get(userId).then(jobs => jobs.toObject())
+        const profile = await Profile.get(userId)
 
         const jobsCount = {
             progress: 0,

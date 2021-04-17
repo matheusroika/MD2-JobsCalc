@@ -9,13 +9,14 @@ module.exports = {
     },
 
     async create(req, res) {
+        const userId = req.user.id
         const job = req.body
-        const jobs = await Job.get()
+        
+        const jobs = await Job.get(userId)
         job.createdAt = Date.now()
-
         job._id = jobs[jobs.length - 1]?._id + 1 || 1
     
-        const isCreated = await Job.create(job)
+        const isCreated = await Job.create(job, userId)
 
         if (isCreated === 'Missing field') {
             req.flash('error', 'O formulário não foi totalmente preenchido.')
@@ -29,11 +30,13 @@ module.exports = {
     },
 
     async edit(req, res) {
-        const jobs = await Job.get()
-        const profile = await Profile.get()
+        const userId = req.user.id
+        const jobId = req.params.id
 
-        const _id = req.params.id
-        const job = jobs.find(job => job._id == _id)
+        const jobs = await Job.get(userId)
+        const profile = await Profile.get(userId)
+
+        const job = jobs.find(job => job._id == jobId)
 
         if (!job) return res.send('Job not found!')
 
@@ -43,9 +46,10 @@ module.exports = {
     },
 
     async update(req, res) {
-        const _id = req.params.id
+        const userId = req.user.id
+        const jobId = req.params.id
 
-        const isUpdated = await Job.update(req.body, _id)
+        const isUpdated = await Job.update(req.body, userId, jobId)
 
         if (isUpdated === 'Missing field') {
             req.flash('error', 'O formulário não foi totalmente preenchido.')
@@ -53,13 +57,14 @@ module.exports = {
             req.flash('error', 'Valor inserido é inválido.')
         }
 
-        return res.redirect('/job/' + _id)
+        return res.redirect('/job/' + jobId)
     },
 
     async delete(req, res) {
-        const _id = req.params.id
+        const userId = req.user.id
+        const jobId = req.params.id
         
-        await Job.delete(_id)
+        await Job.delete(userId, jobId)
 
         return res.redirect('/')
     }
