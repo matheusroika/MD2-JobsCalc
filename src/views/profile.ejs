@@ -37,7 +37,7 @@
         <% } else { %>
           <img src="https://i.imgur.com/sZwgIsH.jpg" alt="<%= profile.name %>">
         <% } %>
-        <h2><%= profile.name %></h2>
+        <h2><%= profile.name + " " + profile.lastName %></h2>
         <p>
           <% if (profile.workHourValue) { %> 
             O valor da sua hora é <br/>
@@ -55,13 +55,19 @@
             <legend>Dados do perfil</legend>
             <div class="separator light"></div>
 
-            <div class="input-group">
-              <div class="input-wrapper">
-                <label for="name">Nome</label>
-                <input type="text" id="name" name="name" value="<%= profile.name %>" required />
+            <div class="input-group" style="margin-top: 0;">
+              <div class="input-group" style="width: 50%;">
+                <div class="input-wrapper">
+                  <label for="name">Nome</label>
+                  <input type="text" id="name" name="name" value="<%= profile.name %>" required />
+                </div>
+                <div class="input-wrapper" style="margin-left: .5rem;">
+                  <label for="name">Sobrenome</label>
+                  <input type="text" id="lastName" name="lastName" value="<%= profile.lastName %>" required />
+                </div>
               </div>
 
-              <div class="input-wrapper">
+              <div class="input-wrapper" style="margin-top: 1.5rem; margin-left: 1.5rem;">
                 <label for="avatar">Link da foto</label>
                 <input 
                 placeholder="https://"

@@ -12,5 +12,19 @@ module.exports = {
     
         return remainingDays
     },
-    calculateBudget: (job, hourValue) => job.totalHoursOfWork * hourValue
+
+    calculateBudget: (job, hourValue) => job.totalHoursOfWork * hourValue,
+
+    calculateTotalWorkHours(jobs) {
+        let jobTotalHours = 0
+
+        jobs.map(job => {
+            const remainingDays = module.exports.calculateRemainingDays(job)
+            const status = remainingDays <= 0 ? 'done' : 'progress'
+            
+            if (status == 'progress') jobTotalHours += job.dailyHoursOfWork
+        })
+
+        return jobTotalHours
+    }
 }

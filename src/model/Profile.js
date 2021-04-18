@@ -12,7 +12,7 @@ module.exports = {
     async update(newData, userId) {
         if(!newData.name || !newData.monthlySalary || !newData.workHoursPerDay || !newData.workDaysPerWeek || !newData.vacationWeeksPerYear) return 'Missing field'
 
-        if (isNaN(newData.monthlySalary) || isNaN(newData.workHoursPerDay) || isNaN(newData.workDaysPerWeek) || isNaN(newData.vacationWeeksPerYear)) return 'Invalid value'
+        if (isNaN(newData.monthlySalary) || isNaN(newData.workHoursPerDay) || isNaN(newData.workDaysPerWeek) || isNaN(newData.vacationWeeksPerYear) || newData.workHoursPerDay < 1 || newData.workHoursPerDay > 24 || newData.workDaysPerWeek < 1 || newData.workDaysPerWeek > 7 || newData.vacationWeeksPerYear < 0 || newData.vacationWeeksPerYear > 51) return 'Invalid value'
 
         const filter = {_id: userId}
         

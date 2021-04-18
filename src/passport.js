@@ -2,7 +2,6 @@ const session = require('express-session')
 const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
 const flash = require('connect-flash')
-const mongoose = require('mongoose')
 
 const { User } = require('./model/User')
 const { validatePassword } = require('./controllers/AuthController')
@@ -47,7 +46,7 @@ module.exports = (server) => {
 
                 const isMatch = await validatePassword(String(user.password), String(password))
 
-                await isMatch ? done(null, user) : done(null, false, { message: errorMsg })      
+                isMatch ? done(null, user) : done(null, false, { message: errorMsg })      
             })
             .catch(done)
     }))

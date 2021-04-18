@@ -4,8 +4,14 @@ const Profile = require('../model/Profile')
 const JobUtils = require('../utils/JobUtils')
 
 module.exports = {
-    index(req, res) {
-        return res.render("job", { message: req.flash() })
+    async index(req, res) {
+        const userId = req.user.id
+        const jobs = await Job.get(userId).then(jobs => jobs.toObject())
+        const profile = await Profile.get(userId)
+
+        const totalWorkHours = JobUtils.calculateTotalWorkHours(jobs)
+        const freeHours = profile.workHoursPerDay - totalWorkHours
+        return res.render("job", { message: req.flash(), freeHours })
     },
 
     async create(req, res) {
@@ -37,12 +43,14 @@ module.exports = {
         const profile = await Profile.get(userId)
 
         const job = jobs.find(job => job._id == jobId)
-
         if (!job) return res.send('Job not found!')
-
         job.budget = JobUtils.calculateBudget(job, profile.workHourValue)
 
-        return res.render("job-edit", { job, message: req.flash() })
+        const jobWorkHours = job.dailyHoursOfWork
+        const totalWorkHours = JobUtils.calculateTotalWorkHours(jobs)
+        const freeHours = profile.workHoursPerDay - totalWorkHours
+
+        return res.render("job-edit", { job, message: req.flash(), freeHours, jobWorkHours })
     },
 
     async update(req, res) {

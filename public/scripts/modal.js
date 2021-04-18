@@ -1,8 +1,8 @@
-export default function Modal({ animateClasses = [] }) {
+export default function Modal({ animateClasses = [] }, modalNumber = "") {
 
-  const wrapper = document.querySelector('.modal-wrapper');
-  const element = document.querySelector('.modal');
-  const cancelButton = element.querySelector("footer .button:nth-child(1)")
+  const wrapper = document.querySelector('.modal-wrapper' + modalNumber);
+  const element = document.querySelector('.modal' + modalNumber);
+  const cancelButton = element.querySelector('.modal' + modalNumber + ' footer .button:nth-child(1)')
 
   cancelButton.addEventListener('click', close)
 

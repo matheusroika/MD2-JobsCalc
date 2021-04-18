@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="/styles/partials/cards.css" />
     <link rel="stylesheet" href="/styles/partials/buttons.css" />
     <link rel="stylesheet" href="/styles/partials/forms.css" />
+    <link rel="stylesheet" href="/styles/partials/modal.css" />
     <link rel="stylesheet" href="/styles/partials/animations.css" />
     <link rel="stylesheet" href="/styles/partials/flash.css" />
     <link rel="stylesheet" href="/styles/pages/job.css" />
@@ -25,6 +26,34 @@
     
   </head>
   <body id="page-job">
+    <script type="module">
+      import Modal from '/scripts/modal.js';
+
+      let addedWorkHours = 0;
+      const freeHours = '<%- freeHours %>';
+
+      window.onload = () => {
+        const dailyHoursElement = document.getElementById("dailyHoursOfWork")
+        dailyHoursElement.addEventListener("input", () => {
+          addedWorkHours = dailyHoursElement.value
+        })
+      }
+
+      window.checkSubmit = function checkSubmit() {
+        if (freeHours - addedWorkHours < 0) {
+          const modal = Modal({ animateClasses: ['animate-pop', 'back'] })
+          modal.open()
+
+          return false
+        } else {
+          return true
+        }
+      }
+
+      window.addJob = function addJob() {
+        document.getElementById("form-job").submit()
+      }
+    </script>
 
     <%- include('parts/page-header', { title: 'Adicionar Novo Job' }) %> 
 
@@ -32,7 +61,7 @@
 
     <div class="container flex animate-up delay-2 margin">
       <main>
-        <form id="form-job" method="POST">
+        <form id="form-job" method="POST" onsubmit="return checkSubmit()">
           <fieldset>
             <legend>Dados do Job</legend>
             <div class="separator light"></div>
@@ -51,6 +80,8 @@
                   step="0.1" 
                   id="dailyHoursOfWork" 
                   name="dailyHoursOfWork" 
+                  min="1"
+                  max="24"
                   required />
               </div>
 
@@ -61,6 +92,7 @@
                   type="number"
                   id="totalHoursOfWork" 
                   name="totalHoursOfWork"
+                  min="1"
                   required />
               </div>
             </div>
@@ -75,7 +107,7 @@
           ver o valor do projeto
         </p>
         <div class="button-group">
-          <button 
+          <button
             class="button green" 
             form="form-job" 
             type="submit" 
@@ -93,6 +125,26 @@
       
     </div>
     <!-- end container -->
+
+    <div class="modal-wrapper">
+      <div class="modal">
+        <img src="/images/alert-octagon-gray.svg" style="width: 48px;" alt="Adicionar Job" title="Adicionar Job" />
+        <h3>Adicionar Job</h3>
+        <p>Quer mesmo adicionar esse job? <br/>
+        Você não terá horas livre no seu dia.  
+        </p>
+        <footer>
+          <a 
+            class="button gray" 
+            href="#">Cancelar</a>
+          <a
+            class="button green"
+            href="#"
+            onclick="addJob()">Adicionar job</a>
+        </footer>
+      </div>
+    </div>
+    <!-- end modal-wrapper -->
   </body>
 </html>
  

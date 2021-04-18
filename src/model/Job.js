@@ -1,6 +1,5 @@
 const { User } = require('../model/User')
 
-
 module.exports = {
     async get(userId) {
         const filter = {_id: userId}
@@ -15,12 +14,12 @@ module.exports = {
             if (!item) return 'Missing field'
         }
 
-        if (isNaN(newData.dailyHoursOfWork) || isNaN(newData.totalHoursOfWork)) return 'Invalid value'
+        if (isNaN(newData.dailyHoursOfWork) || isNaN(newData.totalHoursOfWork) || newData.dailyHoursOfWork > 24 || newData.dailyHoursOfWork < 1 || newData.totalHoursOfWork < 1) return 'Invalid value'
 
         const filter = {_id: userId}
-
         const user = await User.findOne(filter)
         user.jobs.push(newData)
+
         await user.save()
     },
 
@@ -29,7 +28,7 @@ module.exports = {
             if (!item) return 'Missing field'
         }
 
-        if (isNaN(updatedData.dailyHoursOfWork) || isNaN(updatedData.totalHoursOfWork)) return 'Invalid value'
+        if (isNaN(updatedData.dailyHoursOfWork) || isNaN(updatedData.totalHoursOfWork) || updatedData.dailyHoursOfWork > 24 || updatedData.dailyHoursOfWork < 1 || updatedData.totalHoursOfWork < 1) return 'Invalid value'
 
         const filter = {_id: userId}
 
