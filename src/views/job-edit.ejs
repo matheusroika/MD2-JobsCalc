@@ -126,10 +126,18 @@
             >
             <img 
               src="/images/trash-24.svg" 
-              alt="Cancelar cadastro" 
-              title="Cancelar cadastro">
+              alt="Deletar job" 
+              title="Deletar job">
           </a>
         </div>
+
+        <form id="end-job-form" method="POST" action="/job/end/<%= job.id %>">
+          <% if (job.status === 'progress') { %> 
+            <button class="button red" form="end-job-form" type="submit">Finalizar job</button>
+          <% } else { %> 
+            <button class="button orange" form="end-job-form" type="submit">Recomeçar job</button>
+          <% } %> 
+        </form>
       </aside>
       
     </div>

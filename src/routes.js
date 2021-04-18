@@ -30,12 +30,13 @@ routes.post('/job', AuthController.ensureAuthenticated, JobController.create)
 routes.get('/job/:id', AuthController.ensureAuthenticated, JobController.edit)
 routes.post('/job/:id', AuthController.ensureAuthenticated, JobController.update)
 routes.post('/job/delete/:id', AuthController.ensureAuthenticated, JobController.delete)
+routes.post('/job/end/:id', AuthController.ensureAuthenticated, JobController.end)
 
 routes.get('/profile', AuthController.ensureAuthenticated, ProfileController.index)
 routes.post('/profile', AuthController.ensureAuthenticated, ProfileController.update)
 
-routes.use((err, req, res, next) => {
-    console.log('Untreated error: ' + err)
+routes.use((error, req, res, next) => {
+    console.log('Untreated error: ' + error)
     return res.status(500).json({ error: error.toString() });
 }) 
 

@@ -1,11 +1,11 @@
 const { User } = require('../model/User')
 
+const JobUtils = require('../utils/JobUtils')
+
 module.exports = {
     async get(userId) {
         const filter = {_id: userId}
-
         const { jobs } = await User.findOne(filter, 'jobs')
-
         return jobs
     },
 
@@ -16,15 +16,18 @@ module.exports = {
 
         if (isNaN(newData.dailyHoursOfWork) || isNaN(newData.totalHoursOfWork) || newData.dailyHoursOfWork > 24 || newData.dailyHoursOfWork < 1 || newData.totalHoursOfWork < 1) return 'Invalid value'
 
-        const filter = {_id: userId}
-        const user = await User.findOne(filter)
+        const user = await User.findById(userId)
         if (user) {
             if (!user.monthlySalary || !user.workDaysPerWeek || !user.workHoursPerDay || !user.vacationWeeksPerYear || !user.workHourValue) return 'Incomplete profile'
         } else {
             return 'User not found'
         }
-        user.jobs.push(newData)
 
+        const remainingDays = JobUtils.calculateRemainingDays(newData)
+        const status = remainingDays <= 0 ? 'done' : 'progress'
+        newData.status = status
+
+        user.jobs.push(newData)
         await user.save()
     },
 
@@ -35,24 +38,39 @@ module.exports = {
 
         if (isNaN(updatedData.dailyHoursOfWork) || isNaN(updatedData.totalHoursOfWork) || updatedData.dailyHoursOfWork > 24 || updatedData.dailyHoursOfWork < 1 || updatedData.totalHoursOfWork < 1) return 'Invalid value'
 
-        const filter = {_id: userId}
-
-        const user = await User.findOne(filter)
+        const user = await User.findById(userId)
         user.jobs.map(job => {
             if(job._id == jobId) {
                 for (property in updatedData) {
                     job[property] = updatedData[property]
                 }
+                const remainingDays = JobUtils.calculateRemainingDays(job)
+                const status = remainingDays <= 0 ? 'done' : 'progress'
+                job.status = status
             }
         })
         await user.save()
     },
 
     async delete(userId, jobId) {
-        const filter = {_id: userId}
-
-        const user = await User.findOne(filter)
+        const user = await User.findById(userId)
         await user.jobs.pull(jobId)
+        await user.save()
+    },
+
+    async end(userId, jobId) {
+        const user = await User.findById(userId)
+
+        user.jobs.map(job => {
+            if(job._id == jobId) {
+                if (job.status === 'done') {
+                    job.createdAt = new Date
+                    job.status = 'progress'
+                } else {
+                    job.status = 'done'
+                }
+            }
+        })
         await user.save()
     }
 }

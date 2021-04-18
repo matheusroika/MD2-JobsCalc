@@ -35,7 +35,7 @@ module.exports = {
             return res.redirect('/auth')
         }
 
-        const tokenLife = 24 * 60 * 60 * 1000
+        const tokenLife = 60 * 60 * 1000
         const tokenTime = decodedToken.iat * 1000
         const dateNow = Date.now()
 

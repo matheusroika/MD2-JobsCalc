@@ -20,7 +20,6 @@ module.exports = {
         
         const jobs = await Job.get(userId)
 
-        job.createdAt = Date.now()
         job._id = jobs[jobs.length - 1]?._id + 1 || 1
     
         const status = await Job.create(job, userId)
@@ -78,6 +77,15 @@ module.exports = {
         const jobId = req.params.id
         
         await Job.delete(userId, jobId)
+
+        return res.redirect('/')
+    },
+
+    async end(req, res) {
+        const userId = req.user.id
+        const jobId = req.params.id
+
+        await Job.end(userId, jobId)
 
         return res.redirect('/')
     }

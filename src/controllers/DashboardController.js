@@ -20,17 +20,15 @@ module.exports = {
 
         const updatedJobs = jobs.map(job => {
             const remainingDays = JobUtils.calculateRemainingDays(job)
-            const status = remainingDays <= 0 ? 'done' : 'progress'
             const budget = JobUtils.calculateBudget(job, profile.workHourValue)
 
-            jobsCount[status] += 1
+            jobsCount[job.status] += 1
             
-            if (status == 'progress') jobTotalHours += job.dailyHoursOfWork
+            if (job.status == 'progress') jobTotalHours += job.dailyHoursOfWork
 
             return {
                 ...job,
                 remainingDays,
-                status,
                 budget
             }
         })

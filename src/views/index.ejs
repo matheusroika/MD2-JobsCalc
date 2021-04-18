@@ -111,7 +111,7 @@
               <div class="deadline column">
                 <span>Prazo</span>
                 <p>
-                  <% if(job.remainingDays === 0) { %>
+                  <% if (job.status === 'done') { %>
                     Prazo encerrado
                   <% } else if (job.remainingDays === 1) { %>
                     Entrega hoje!
@@ -124,7 +124,7 @@
                 <span>Valor</span>
                 <p>R$ <%= job.budget.toFixed(2).replace('.',',') %></p>
               </div>
-              <div class="status badge column">
+              <div class="status badge column <%= job.status %>">
                 <%= job.status === 'done' ? 'Encerrado' : 'Em andamento' %> 
               </div>
               <div class="actions column flex">

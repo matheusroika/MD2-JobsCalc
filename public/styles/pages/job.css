@@ -35,3 +35,9 @@ aside .button + .button {
   width: 3rem;
   height: 3rem;
 }
+
+#end-job-form .button {
+  display: block;
+  margin-right: auto;
+  margin-top: 1rem;
+}

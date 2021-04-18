@@ -17,12 +17,14 @@ const userSchema = new mongoose.Schema({
     workHourValue: Number,
     resetPasswordToken: String,
     isPlaceholder: Boolean,
+    createdAt: { type: Date, default: Date.now },
     jobs: [
         {
             _id: Number,
             name: String,
             dailyHoursOfWork: Number,
             totalHoursOfWork: Number,
+            status: String,
             createdAt: { type: Date, default: Date.now }
         }
     ]
@@ -179,7 +181,7 @@ module.exports = {
     },
 
     async createPlaceholder() {
-        function getRandomInt(min = 1, max = 1000000) {
+        function getRandomInt(min = 100000, max = 10000000) {
             min = Math.ceil(min);
             max = Math.floor(max);
             return Math.floor(Math.random() * (max - min)) + min;
