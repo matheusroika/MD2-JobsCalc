@@ -40,8 +40,27 @@ main {
     width: 70%;
 }
 
+#button-group {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 2rem;
+}
+
 .button {
     margin-top: 2rem;
+}
+
+#forgot {
+    margin-left: 1rem;
+    font-family: IBM Plex Sans, sans-serif;
+    color: var(--color-primary);
+    cursor: pointer;
+}
+
+#forgot:hover {
+    color: var(--color-secondary);
+    text-decoration: underline;
 }
 
 @media(max-width: 1000px) {

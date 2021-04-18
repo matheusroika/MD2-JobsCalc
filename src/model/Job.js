@@ -18,6 +18,11 @@ module.exports = {
 
         const filter = {_id: userId}
         const user = await User.findOne(filter)
+        if (user) {
+            if (!user.monthlySalary || !user.workDaysPerWeek || !user.workHoursPerDay || !user.vacationWeeksPerYear || !user.workHourValue) return 'Incomplete profile'
+        } else {
+            return 'User not found'
+        }
         user.jobs.push(newData)
 
         await user.save()

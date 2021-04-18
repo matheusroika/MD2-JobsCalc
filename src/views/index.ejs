@@ -32,18 +32,22 @@
           <img id="logo" src="/images/logo.svg" alt="Logo" />
           <span id="notification">
             <img src="/images/alert-octagon.svg" alt="Alerta" />
-            <% if(freeHours <= 0) {%>
-              Você não tem horas livres
-            <% } else { %> 
-              Você tem <%= freeHours %> horas livres no seu dia
-            <% } %> 
+            <% if(freeHours) {%>
+              <% if(freeHours <= 0) {%>
+                Você não tem horas livres
+              <% } else { %> 
+                Você tem <%= freeHours %> horas livres no seu dia
+              <% } %> 
+            <% } else {%>
+              Preencha os dados no perfil
+            <% } %>
           </span>
           <div id="profile">
             <div>
               <a href="/profile">
                 <p id="profile-name"><%= profile.name %></p>
               </a>
-              <a href="/logout" id="logout">Sair</a>
+              <a href="/auth/logout" id="logout">Sair</a>
             </div>
             <a href="/profile">
               <% if (profile.avatar) { %> 
@@ -74,12 +78,21 @@
               Encerrados
             </div>
           </div>
+          <% if (!profile.monthlySalary || !profile.workDaysPerWeek || !profile.workHoursPerDay || !profile.vacationWeeksPerYear || !profile.workHourValue) { %>
+            <a class="button gray" style="cursor: default;" href="#">
+              <span>
+                <img src="/images/plus-24-gray.svg" alt="Novo Job" /> 
+              </span>
+              Adicionar novo job
+            </a>
+          <% } else { %> 
           <a class="button orange" href="/job">
             <span>
               <img src="/images/plus-24.svg" alt="Novo Job" /> 
             </span>
             Adicionar novo job
           </a>
+          <% } %>
         </section>
       </div>
     </header>

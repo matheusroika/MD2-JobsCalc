@@ -19,17 +19,22 @@ module.exports = {
         const job = req.body
         
         const jobs = await Job.get(userId)
+
         job.createdAt = Date.now()
         job._id = jobs[jobs.length - 1]?._id + 1 || 1
     
-        const isCreated = await Job.create(job, userId)
-
-        if (isCreated === 'Missing field') {
+        const status = await Job.create(job, userId)
+        if (status === 'Missing field') {
             req.flash('error', 'O formulário não foi totalmente preenchido.')
             return res.redirect("/job")
-        } else if (isCreated === 'Invalid value') {
+        } else if (status === 'Invalid value') {
             req.flash('error', 'Valor inserido é inválido.')
             return res.redirect("/job")
+        } else if (status === 'Incomplete profile') {
+            req.flash('error', 'Perfil incompleto. Por favor, preencha as informações abaixo.')
+            return res.redirect("/profile")
+        } else if (status === 'User not found') {
+            req.flash('error', 'Usuário não encontrado.')
         }
 
         return res.redirect("/")
@@ -44,6 +49,7 @@ module.exports = {
 
         const job = jobs.find(job => job._id == jobId)
         if (!job) return res.send('Job not found!')
+
         job.budget = JobUtils.calculateBudget(job, profile.workHourValue)
 
         const jobWorkHours = job.dailyHoursOfWork
@@ -57,11 +63,10 @@ module.exports = {
         const userId = req.user.id
         const jobId = req.params.id
 
-        const isUpdated = await Job.update(req.body, userId, jobId)
-
-        if (isUpdated === 'Missing field') {
+        const status = await Job.update(req.body, userId, jobId)
+        if (status === 'Missing field') {
             req.flash('error', 'O formulário não foi totalmente preenchido.')
-        } else if (isUpdated === 'Invalid value') {
+        } else if (status === 'Invalid value') {
             req.flash('error', 'Valor inserido é inválido.')
         }
 

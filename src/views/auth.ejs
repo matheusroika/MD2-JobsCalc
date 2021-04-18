@@ -26,6 +26,16 @@
   </head>
 
   <body id="page-index"> 
+    <script type="text/javascript">
+      function removeRequired() {
+        if (document.getElementById("loginEmail").value) {
+          document.getElementById("loginPassword").removeAttribute("required")
+          document.getElementById("form-login").action = "/auth/forgot"
+          document.getElementById("form-login").submit()
+          document.getElementById("loginPassword").setAttribute("required")
+        }
+      }
+    </script>
     <header class="page-header">
       <div class="container">
         <section id="top" class="animate-up">
@@ -43,7 +53,7 @@
     <div class="container flex animate-up delay-2">
       <main>
         <div class="card">
-        <form id="form-login" method="POST" action="/login">
+        <form id="form-login" method="POST" action="/auth/login">
           <fieldset>
             <legend>Login</legend>
 
@@ -64,17 +74,25 @@
             </div>
           </fieldset>
 
-          <button 
-            class="button green" 
-            form="form-login" 
-            type="submit" 
-            title="Fazer login">
-            Entrar
-          </button>
+          <div id="button-group">
+            <button 
+              class="button green" 
+              form="form-login" 
+              type="submit" 
+              title="Fazer login"
+              style="margin-top: 0;">Entrar</button>
+            
+            <button
+              id="forgot"
+              form="form-login"
+              type="submit"
+              title="Recuperar a senha"
+              onclick="removeRequired()">Esqueci minha senha</button>
+          </div>
         </form>
       </div>
 
-        <form id="form-register" method="POST" action="/register">
+        <form id="form-register" method="POST" action="/auth/register">
           <fieldset>
             <legend>Registro</legend>
 
