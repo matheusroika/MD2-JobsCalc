@@ -58,7 +58,7 @@ module.exports = {
             })
     },
 
-    async createPassword(req, res) {
+    async createPassword(req, res, next) {
         const newPassword = req.body.password
         const userId = req.body.userId
         const token = req.params.token

@@ -22,6 +22,12 @@
     margin-left: 2rem;
 }
 
+#top .button {
+    display: block;
+    margin-left: auto;
+    margin-top: 0;
+}
+
 main {
     width: 100%;
     display: flex;

@@ -16,6 +16,7 @@ const userSchema = new mongoose.Schema({
     vacationWeeksPerYear: Number,
     workHourValue: Number,
     resetPasswordToken: String,
+    isPlaceholder: Boolean,
     jobs: [
         {
             _id: Number,
@@ -95,6 +96,7 @@ module.exports = {
     },
 
     async sendForgotPasswordEmail(email, url) {
+        if (!/^\S+@\S+$/.test(email)) return 'Invalid email'
         const user = await User.findOne({email})
         if (user) {
             if (!user.active) {
@@ -174,5 +176,35 @@ module.exports = {
             return 'Invalid token'
         }
         
+    },
+
+    async createPlaceholder() {
+        function getRandomInt(min = 1, max = 1000000) {
+            min = Math.ceil(min);
+            max = Math.floor(max);
+            return Math.floor(Math.random() * (max - min)) + min;
+        }
+
+        const user = {
+            email: getRandomInt(),
+            password: getRandomInt(),
+            active: true,
+            name: "Nome",
+            lastName: "Sobrenome",
+            isPlaceholder: true,
+        }
+
+        const placeholderUser = new User(user)
+        await placeholderUser.save()
+        return placeholderUser
+    },
+
+    async deletePlaceholder(userId) {
+        const user = await User.findById(userId)
+        if (user) {
+            if (user.isPlaceholder) {
+                await User.findByIdAndDelete(userId)
+            }
+        }
     }
 }

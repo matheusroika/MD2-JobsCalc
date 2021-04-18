@@ -8,13 +8,15 @@ module.exports = {
         return res.render("auth", { message: req.flash() })
     },
     
-    logout(req, res) {
+    async logout(req, res) {
+        const userId = req.user.id
+        await User.deletePlaceholder(userId)
         req.logout()
         req.session.destroy()
         return res.redirect('/auth')
     },
 
-    async register(req, res, next) {
+    async register(req, res) {
         const user = req.body
 
         const url = req.protocol + '://' + req.get('Host') + req.originalUrl + '/'
@@ -39,7 +41,7 @@ module.exports = {
         return await argon2.verify(userPassword, typedPassword)
     },
 
-    async registerToken(req, res) {
+    async registerToken(req, res, next) {
         const token = req.params.token
         
         const decodedToken = jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
@@ -77,6 +79,19 @@ module.exports = {
                         return res.redirect('/profile')
                     })
                 }
+            })
+    },
+
+    async createPlaceholder(req, res, next) {
+        await User.createPlaceholder()
+            .then(user => {
+                req.login(user, err => {
+                    if(err) return next(err)
+
+                    req.session.cookie.maxAge = 10 * 60 * 1000
+                    req.flash('success', 'Bem-vindo(a)! Lembre=se que essa é uma conta temporária e será deletada.')
+                    return res.redirect('/profile')
+                })
             })
     },
 

@@ -10,6 +10,8 @@ const ProfileController = require('./controllers/ProfileController')
 
 routes.get('/auth', AuthController.forwardAuthenticated, AuthController.index)
 
+routes.get('/auth/placeholder', AuthController.forwardAuthenticated, AuthController.createPlaceholder)
+
 routes.get('/auth/register/:token', AuthController.forwardAuthenticated, AuthController.registerToken)
 routes.post('/auth/register', AuthController.forwardAuthenticated, AuthController.register)
 

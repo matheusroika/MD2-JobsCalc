@@ -42,6 +42,8 @@ module.exports = (server) => {
             .then(async user => {
                 if (!user) {
                     return done(null, false, {message: errorMsg})
+                } else if (!user.active) {
+                    return done(null, false, {message: 'Sua conta não foi confirmada. Por favor, cheque seu email.'})
                 }
 
                 const isMatch = await validatePassword(String(user.password), String(password))
