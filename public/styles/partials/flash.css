@@ -1,5 +1,5 @@
 .error, .success {
-    z-index: -1;
+    z-index: 1;
     position: absolute;
     left: 25%;
     width: 50%;
@@ -17,4 +17,9 @@
 
 .success {
     background-color: var(--color-save);
+}
+
+header.page-header {
+    position: relative;
+    z-index: 2;
 }

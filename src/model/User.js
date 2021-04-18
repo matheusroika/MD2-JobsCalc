@@ -86,6 +86,7 @@ module.exports = {
                 return 'User already confirmed'
             } else {
                 user.active = true
+                await user.save()
                 return user
             }
         } else {
@@ -153,6 +154,7 @@ module.exports = {
     },
 
     async setNewPassword(password, userId, token) {
+        if(!/.{6,}/.test(password)) return 'Invalid password'
         password = await argon2.hash(password)
         const user = await User.findById(userId)
         if (user) {
@@ -164,6 +166,7 @@ module.exports = {
                 return 'Invalid token'
             } else {
                 user.password = password
+                user.resetPasswordToken = undefined
                 await user.save()
                 return user
             }

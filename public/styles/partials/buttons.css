@@ -86,3 +86,19 @@ button.button {
 .actions .button + button {
   margin-left: 0.5rem;
 }
+
+.eye-container {
+  display: flex;
+  justify-content: center;
+}
+
+.eye-icon {
+  width: 24px;
+  margin-left: -36px;
+  cursor: pointer;
+  opacity: .5;
+}
+
+.eye-icon.on {
+  opacity: 1;
+}

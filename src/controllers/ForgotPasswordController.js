@@ -65,7 +65,10 @@ module.exports = {
 
         await User.setNewPassword(newPassword, userId, token)
             .then(user => {
-                if (user === 'User is not confirmed') {
+                if (user === 'Invalid password') {
+                    req.flash('error', 'Sua senha deve ter 6 ou mais caracteres.')
+                    return res.redirect('/auth/forgot/' + token)
+                } else if (user === 'User is not confirmed') {
                     req.flash('error', 'Sua conta não foi confirmada. Por favor, cheque seu email.')
                     return res.redirect('/auth')
                 } else if (user === 'Invalid token') {
