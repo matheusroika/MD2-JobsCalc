@@ -1,14 +1,15 @@
 {
-  "name": "maratona",
+  "name": "jobs-calc",
   "version": "1.0.0",
   "description": "Freelance Jobs Calculator",
   "main": "src/server.js",
   "scripts": {
     "dev": "nodenv . --exec nodemon",
-    "init-db": "nodenv src/db/init.js"
+    "init-db": "nodenv src/db/init.js",
+	  "start": "node ."
   },
   "keywords": [],
-  "author": "",
+  "author": "Matheus Roika <matheusroika@gmail.com> (http://roika.design)",
   "license": "MIT",
   "dependencies": {
     "@sendgrid/mail": "^7.4.2",
@@ -27,5 +28,8 @@
   "devDependencies": {
     "node-env-run": "^4.0.2",
     "nodemon": "^2.0.7"
+  },
+  "engines": {
+	  "node":"15.14"
   }
 }
