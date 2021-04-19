@@ -95,7 +95,10 @@ module.exports = {
         if (req.isAuthenticated()) {
             return next()
         }
-        req.flash('error', 'Você precisa estar logado para acessar essa página.')
+
+        if (req.path !== '/') {
+            req.flash('error', 'Você precisa estar logado para acessar essa página.')
+        }
         return res.redirect('/auth')
     },
 
