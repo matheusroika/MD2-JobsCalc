@@ -40,6 +40,7 @@ module.exports = {
         const dateNow = Date.now()
 
         if (tokenTime + tokenLife < dateNow) {
+            await User.deleteResetPasswordToken(decodedToken.id)
             req.flash('error', 'Esse link de recuperação expirou. Por favor, tente novamente.')
             return res.redirect('/auth')
         }

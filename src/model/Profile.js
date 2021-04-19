@@ -62,7 +62,7 @@ module.exports = {
             return 'User has email change pending'
         }
 
-        const token = jwt.sign({_id: user._id, email}, process.env.JWT_SECRET3)
+        const token = jwt.sign({id: user._id, email}, process.env.JWT_SECRET3)
         user.changeEmailToken = await argon2.hash(token)
 
         const confirmationLink = url + token
@@ -110,4 +110,10 @@ module.exports = {
             return 'Invalid token'
         }
     },
+
+    async deleteChangeEmailToken(userId) {
+        const user = await User.findById(userId)
+        user.changeEmailToken = undefined
+        await user.save()
+    }
 }

@@ -111,7 +111,7 @@ module.exports = {
             return 'Invalid email'
         }
 
-        const token = jwt.sign({id: user.id}, process.env.JWT_SECRET2)
+        const token = jwt.sign({id: user._id}, process.env.JWT_SECRET2)
         user.resetPasswordToken = await argon2.hash(token)
 
         const forgotLink = url + token
@@ -179,6 +179,12 @@ module.exports = {
             return 'Invalid token'
         }
         
+    },
+
+    async deleteResetPasswordToken(userId) {
+        const user = await User.findById(userId)
+        user.resetPasswordToken = undefined
+        await user.save()
     },
 
     async createPlaceholder() {

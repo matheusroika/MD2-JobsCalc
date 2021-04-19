@@ -112,11 +112,12 @@ module.exports = {
         const dateNow = Date.now()
 
         if (tokenTime + tokenLife < dateNow) {
+            await Profile.deleteChangeEmailToken(decodedToken.id)
             req.flash('error', 'Esse link de mudança expirou. Por favor, tente novamente.')
             return res.redirect('/profile')
         }
         
-        await Profile.checkChangeEmailToken(decodedToken._id, token, decodedToken.email)
+        await Profile.checkChangeEmailToken(decodedToken.id, token, decodedToken.email)
             .then(user => {
                 if (user === 'User is not confirmed') {
                     req.flash('error', 'Sua conta não foi confirmada. Por favor, cheque seu email.')
