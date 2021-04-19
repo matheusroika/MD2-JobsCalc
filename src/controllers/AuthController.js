@@ -37,10 +37,6 @@ module.exports = {
         return res.redirect('/auth')
     },
 
-    async validatePassword(userPassword, typedPassword) {
-        return await argon2.verify(userPassword, typedPassword)
-    },
-
     async registerToken(req, res, next) {
         const token = req.params.token
         
@@ -99,6 +95,7 @@ module.exports = {
         if (req.isAuthenticated()) {
             return next()
         }
+        req.flash('error', 'Você precisa estar logado para acessar essa página.')
         return res.redirect('/auth')
     },
 

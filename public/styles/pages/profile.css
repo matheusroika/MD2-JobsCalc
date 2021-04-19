@@ -52,6 +52,19 @@ aside p {
   line-height: 1.875rem;
 }
 
+.button-group {
+  margin-top: 1rem;
+  justify-content: space-between;
+}
+
+.button-group .button {
+  width: calc(50% - .5rem);
+}
+
+.button + .button {
+  margin-left: 0;
+}
+
 main {
   flex: 1;
 }

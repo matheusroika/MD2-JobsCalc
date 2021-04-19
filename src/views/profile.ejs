@@ -26,7 +26,7 @@
   </head>
   <body id="page-profile">
 
-    <%- include('parts/page-header', { title: 'Meu Perfil' }) %> 
+    <%- include('parts/page-header', { title: 'Meu Perfil', previousPage: '' }) %> 
 
     <%- include('parts/flash', { message }) %>
 
@@ -47,6 +47,10 @@
           <% } %>  
         </p>
         <button class="button green" form="form-profile" type="submit">Salvar dados</button>
+        <div class="button-group">
+          <a class="button orange" href="/profile/change-password">Alterar senha</a>
+          <a class="button orange" href="/profile/change-email">Alterar email</a>
+        </div>
       </aside>
       <main>
 

@@ -16,6 +16,7 @@ const userSchema = new mongoose.Schema({
     vacationWeeksPerYear: Number,
     workHourValue: Number,
     resetPasswordToken: String,
+    changeEmailToken: String,
     isPlaceholder: Boolean,
     createdAt: { type: Date, default: Date.now },
     jobs: [

@@ -2,9 +2,9 @@ const session = require('express-session')
 const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
 const flash = require('connect-flash')
+const argon2 = require('argon2')
 
 const { User } = require('./model/User')
-const { validatePassword } = require('./controllers/AuthController')
 
 module.exports = (server) => {
     server.use(session({
@@ -44,10 +44,11 @@ module.exports = (server) => {
                     return done(null, false, {message: errorMsg})
                 } else if (!user.active) {
                     return done(null, false, {message: 'Sua conta não foi confirmada. Por favor, cheque seu email.'})
+                } else if (user.isPlaceholder) {
+                    return done(null, false, {message: 'Você não pode logar em uma conta temporária.'})
                 }
 
-                const isMatch = await validatePassword(String(user.password), String(password))
-
+                const isMatch = await argon2.verify(String(user.password), String(password))
                 isMatch ? done(null, user) : done(null, false, { message: errorMsg })      
             })
             .catch(done)

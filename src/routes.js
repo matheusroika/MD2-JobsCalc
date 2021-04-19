@@ -35,6 +35,14 @@ routes.post('/job/end/:id', AuthController.ensureAuthenticated, JobController.en
 routes.get('/profile', AuthController.ensureAuthenticated, ProfileController.index)
 routes.post('/profile', AuthController.ensureAuthenticated, ProfileController.update)
 
+routes.get('/profile/change-email', AuthController.ensureAuthenticated, ProfileController.changeEmailPage)
+routes.post('/profile/change-email', AuthController.ensureAuthenticated, ProfileController.changeEmail)
+routes.get('/profile/change-email/:token', AuthController.ensureAuthenticated, ProfileController.validateToken)
+
+routes.get('/profile/change-password', AuthController.ensureAuthenticated, ProfileController.changePasswordPage)
+routes.post('/profile/change-password', AuthController.ensureAuthenticated, ProfileController.changePassword)
+
+
 routes.use((error, req, res, next) => {
     console.log('Untreated error: ' + error)
     return res.status(500).json({ error: error.toString() });

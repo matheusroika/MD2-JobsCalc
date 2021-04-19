@@ -29,38 +29,33 @@
 
   <body id="page-index"> 
 
-    <%- include('parts/page-header', { title: 'Esqueceu sua senha?', previousPage: 'auth' }) %>
+    <%- include('parts/page-header', { title: 'Mudança de email', previousPage: 'profile' }) %>
 
     <%- include('parts/flash', { message }) %>
 
     <div class="container flex animate-up delay-2">
       <main>
         <div class="card">
-        <form id="form-forgot-password" method="POST">
+        <form id="form-change-email" method="POST">
           <fieldset>
-            <legend>Crie uma nova senha</legend>
+            <legend>Altere seu email</legend>
 
             <div class="separator light"></div>
 
             <div class="input-group">
               <div class="input-wrapper" style="width: 100%">
-                <label for="password">Senha</label>
-                <div class="eye-container">
-                  <input type="password" id="password" name="password" value="" pattern=".{6,}" title="Sua senha deve ter 6 ou mais caracteres." required/>
-                  <img class="eye-icon" src="/images/eye.svg" alt="Mostrar senha" onclick="togglePasswordVisibility()"/>
-                </div>
+                <label for="email">Novo email</label>
+                <input type="email" id="email" name="email" value="" required/>
               </div>
             </div>
-
-            <input type="hidden" name="userId" value="<%= id %>">
-
+   
           </fieldset>
 
           <button 
             class="button green" 
-            form="form-forgot-password" 
+            form="form-change-email" 
             type="submit" 
-            title="Criar nova senha">Confirmar</button>
+            title="Alterar email">Confirmar</button>
         </form>
       </div>
 
