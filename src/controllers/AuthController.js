@@ -85,7 +85,7 @@ module.exports = {
                     if(err) return next(err)
 
                     req.session.cookie.maxAge = 10 * 60 * 1000
-                    req.flash('success', 'Bem-vindo(a)! Lembre=se que essa é uma conta temporária e será deletada.')
+                    req.flash('success', 'Bem-vindo(a)! Lembre-se que essa é uma conta temporária e será deletada.')
                     return res.redirect('/profile')
                 })
             })
