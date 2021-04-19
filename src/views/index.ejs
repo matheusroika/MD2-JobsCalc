@@ -32,14 +32,14 @@
           <img id="logo" src="/images/logo.svg" alt="Logo" />
           <span id="notification">
             <img src="/images/alert-octagon.svg" alt="Alerta" />
-            <% if(freeHours) {%>
+            <% if (!profile.monthlySalary || !profile.workDaysPerWeek || !profile.workHoursPerDay || !profile.vacationWeeksPerYear || !profile.workHourValue) { %>
+              Preencha os dados no perfil
+            <% } else { %>
               <% if(freeHours <= 0) {%>
                 Você não tem horas livres
               <% } else { %> 
                 Você tem <%= freeHours %> horas livres no seu dia
               <% } %> 
-            <% } else {%>
-              Preencha os dados no perfil
             <% } %>
           </span>
           <div id="profile">
