@@ -15,18 +15,53 @@ module.exports = {
         const profile = req.body
         const userId = req.user.id
 
+        const status = await Profile.update(profile, userId)
+
+        if (status === 'Missing field') {
+            req.flash('error', 'O formulário não foi totalmente preenchido.')
+        }
+
+        return res.redirect('/profile')
+    },
+
+    async calculate(req, res) {
+        const profile = req.body
+        const userId = req.user.id
+
         const hourlySalary = ProfileUtils.calculateHourlySalary(profile)
         profile.workHourValue = hourlySalary
 
-        const isUpdated = await Profile.update(profile, userId)
+        const status = await Profile.calculate(profile, userId)
 
-        if (isUpdated === 'Missing field') {
+        if (status === 'Missing field') {
             req.flash('error', 'O formulário não foi totalmente preenchido.')
-        } else if (isUpdated === 'Invalid value') {
+        } else if (status === 'Invalid value') {
             req.flash('error', 'Valor inserido é inválido.')
         }
 
         return res.redirect('/profile')
+    },
+
+    async delete(req, res) {
+        const password = req.body.password
+        const userId = req.user.id
+
+        const status = await Profile.delete(password, userId)
+
+        if (status === 'Missing field') {
+            req.flash('error', 'O formulário não foi totalmente preenchido.')
+            return res.redirect('/profile')
+        } else if (status === 'Placeholder account') {
+            req.flash('error', 'Essa conta é temporária. Ela será apagada automaticamente.')
+            return res.redirect('/profile')
+        } else if (status === 'Wrong password') {
+            req.flash('error', 'Senha errada.')
+            return res.redirect('/profile')
+        } else {
+            req.flash('success', 'Sua conta foi apagada com sucesso.')
+        }
+
+        return res.redirect('/auth')
     },
 
     async changeEmailPage(req, res) {

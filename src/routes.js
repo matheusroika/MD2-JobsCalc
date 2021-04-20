@@ -33,7 +33,9 @@ routes.post('/job/delete/:id', AuthController.ensureAuthenticated, JobController
 routes.post('/job/end/:id', AuthController.ensureAuthenticated, JobController.end)
 
 routes.get('/profile', AuthController.ensureAuthenticated, ProfileController.index)
-routes.post('/profile', AuthController.ensureAuthenticated, ProfileController.update)
+routes.post('/profile/update', AuthController.ensureAuthenticated, ProfileController.update)
+routes.post('/profile/calculate', AuthController.ensureAuthenticated, ProfileController.calculate)
+routes.post('/profile/delete', AuthController.ensureAuthenticated, ProfileController.delete)
 
 routes.get('/profile/change-email', AuthController.ensureAuthenticated, ProfileController.changeEmailPage)
 routes.post('/profile/change-email', AuthController.ensureAuthenticated, ProfileController.changeEmail)

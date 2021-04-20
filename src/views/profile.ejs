@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="/styles/partials/cards.css" />
     <link rel="stylesheet" href="/styles/partials/buttons.css" />
     <link rel="stylesheet" href="/styles/partials/forms.css" />
+    <link rel="stylesheet" href="/styles/partials/modal.css" />
     <link rel="stylesheet" href="/styles/partials/animations.css" />
     <link rel="stylesheet" href="/styles/partials/flash.css" />
     <link rel="stylesheet" href="/styles/pages/profile.css" />
@@ -22,6 +23,8 @@
       href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
+
+    <script type="module" src="/scripts/job-edit.js"></script>
     
   </head>
   <body id="page-profile">
@@ -46,15 +49,23 @@
             Calcule o valor da sua hora preenchendo os valores ao lado.
           <% } %>  
         </p>
-        <button class="button green" form="form-profile" type="submit">Salvar dados</button>
+        <% if (!profile.isPlaceholder) { %> 
         <div class="button-group">
           <a class="button orange" href="/profile/change-password">Alterar senha</a>
           <a class="button orange" href="/profile/change-email">Alterar email</a>
         </div>
+        <a id="delete-button" class="button gray open-modal" form="form-delete-user" type="submit">
+          <img 
+              src="/images/trash-24.svg" 
+              alt="Deletar job" 
+              title="Deletar job">
+          Excluir conta
+        </a>
+        <% } %> 
       </aside>
       <main>
 
-        <form id="form-profile" method="POST">
+        <form id="form-profile" method="POST" action="/profile/update">
           <fieldset>
             <legend>Dados do perfil</legend>
             <div class="separator light"></div>
@@ -82,7 +93,10 @@
               </div>
             </div>
           </fieldset>
+          <button class="button green" form="form-profile" type="submit">Atualizar</button>
+        </form>
 
+        <form id="form-calculate" method="POST" action="/profile/calculate">
           <fieldset>
             <legend>Planejamento</legend>
             <div class="separator light"> </div>
@@ -136,11 +150,36 @@
               </div>
             </div>
           </fieldset>
-    
+          <button class="button green" form="form-calculate" type="submit">Calcular</button>
         </form>
+    
       </main>
     </div>
     <!-- end container -->
+
+    <div class="modal-wrapper">
+      <div class="modal">
+        <img src="/images/trash-48.svg" alt="Excluir conta" title="Excluir conta" />
+        <form id="delete-user" method="POST" action="/profile/delete">
+          <fieldset>
+            <legend><h3>Excluir conta</h3></legend>
+            <p>
+              Quer mesmo excluir sua conta? <br/>
+              Digite sua senha para confirmar.
+            </p>
+            <label for="password">Senha</label>
+            <input type="password" id="password" name="password" value="" required/>
+          </fieldset>
+        </form>
+        <footer>
+          <a class="button gray" href="#">Cancelar</a>
+          <button
+            class="button red"
+            type="submit"
+            form="delete-user">Excluir Job</button>
+        </footer>
+      </div>
+    </div>
+    <!-- end modal-wrapper -->
   </body>
 </html>
- 

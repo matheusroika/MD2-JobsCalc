@@ -22,7 +22,7 @@ aside.card {
   padding: 3.875rem 4.625rem;
 }
 
-aside img {
+aside > img {
   border-radius: 50%;
 
   border: .25rem var(--color-secondary) solid;
@@ -44,7 +44,7 @@ aside h2 {
 }
 
 aside p {
-  margin-bottom: 1.75rem;
+  margin-bottom: 3.875rem;
 
   font-family: Inter;
   font-weight: 400;
@@ -52,8 +52,15 @@ aside p {
   line-height: 1.875rem;
 }
 
+form + form {
+  margin-top: 4rem;
+}
+
+.button {
+  line-height:1.25rem
+}
+
 .button-group {
-  margin-top: 1rem;
   justify-content: space-between;
 }
 
@@ -63,6 +70,32 @@ aside p {
 
 .button + .button {
   margin-left: 0;
+}
+
+fieldset + .button {
+  margin-top: 2rem;
+}
+
+.button-group + .button {
+  margin-top: 1rem;
+}
+
+#delete-button:hover {
+  background-color: var(--color-delete);
+  color: var(--color-text);
+}
+
+#delete-button:hover img {
+  content: url("/images/trash-24-white.svg")
+}
+
+.button img {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+#password {
+  margin-bottom: 2rem;
 }
 
 main {

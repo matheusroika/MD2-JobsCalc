@@ -8,19 +8,43 @@ module.exports = {
     async get(userId) {
         const filter = {_id: userId}
 
-        const profile = await User.findOne(filter, 'name lastName avatar monthlySalary workDaysPerWeek workHoursPerDay vacationWeeksPerYear workHourValue')
+        const profile = await User.findOne(filter, 'name lastName avatar monthlySalary workDaysPerWeek workHoursPerDay vacationWeeksPerYear workHourValue isPlaceholder')
 
         return profile
     },
 
     async update(newData, userId) {
-        if(!newData.name || !newData.monthlySalary || !newData.workHoursPerDay || !newData.workDaysPerWeek || !newData.vacationWeeksPerYear) return 'Missing field'
+        if(!newData.name || !newData.lastName) return 'Missing field'
+
+        const filter = {_id: userId}
+        
+        await User.findOneAndUpdate(filter, newData)
+    },
+
+    async calculate(newData, userId) {
+        if(!newData.monthlySalary || !newData.workHoursPerDay || !newData.workDaysPerWeek || !newData.vacationWeeksPerYear) return 'Missing field'
 
         if (isNaN(newData.monthlySalary) || isNaN(newData.workHoursPerDay) || isNaN(newData.workDaysPerWeek) || isNaN(newData.vacationWeeksPerYear) || newData.workHoursPerDay < 1 || newData.workHoursPerDay > 24 || newData.workDaysPerWeek < 1 || newData.workDaysPerWeek > 7 || newData.vacationWeeksPerYear < 0 || newData.vacationWeeksPerYear > 51) return 'Invalid value'
 
         const filter = {_id: userId}
         
         await User.findOneAndUpdate(filter, newData)
+    },
+
+    async delete(password, userId) {
+        if (!password) return 'Missing field'
+        
+        const user = await User.findById(userId)
+
+        if (user.isPlaceholder) {
+            return 'Placeholder account'
+        }
+
+        if (await argon2.verify(user.password, password)) {
+            await User.findByIdAndDelete(userId)
+        } else {
+            return 'Wrong password'
+        }
     },
 
     async check(userId) {
