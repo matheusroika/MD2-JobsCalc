@@ -72,5 +72,17 @@ module.exports = {
             }
         })
         await user.save()
+    },
+
+    async updateStatus(jobId, userId) {
+        const user = await User.findById(userId)
+
+        user.jobs.map(job => {
+            if (job._id == jobId) {
+                job.status = 'done'
+            }
+        }) 
+
+        await user.save()
     }
 }
