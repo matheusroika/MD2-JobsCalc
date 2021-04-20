@@ -18,7 +18,7 @@ module.exports = {
 
         let jobTotalHours = 0
 
-        const updatedJobs = await jobs.map(job => {
+        const updatedJobs = jobs.map(job => {
             const remainingDays = JobUtils.calculateRemainingDays(job)
             const budget = JobUtils.calculateBudget(job, profile.workHourValue)
 
@@ -36,7 +36,7 @@ module.exports = {
                 budget
             }
         })
-        
+
         const freeHours = profile.workHoursPerDay - jobTotalHours
         
         return res.render("index", { jobs: updatedJobs, profile, jobsCount, freeHours })
