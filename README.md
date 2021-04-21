@@ -27,7 +27,7 @@
 Depois da maratona realizei as seguintes alterações e adições:
 
 - Mudança do banco de dados para MongoDB (utilizando biblioteca Mongoose)
-- Login e registro com confirmação por email
+- Login e registro com confirmação por email (utilizando Passport e SendGrid)
 - Recuperação de senha
 - Alteração de senha e email, além de exclusão total da conta
 - Para propósitos de visualização: login sem necessidade de registro
