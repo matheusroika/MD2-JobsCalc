@@ -3,6 +3,7 @@
 </h1>
 
 <p align="center">
+  <a href="#new-alterações">Alterações</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#-tecnologias">Tecnologias</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#-projeto">Projeto</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#-layout">Layout</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
@@ -20,6 +21,20 @@
 <p align="center">
   <img alt="dev.finances" src=".github/jobscalc.png" width="100%">
 </p>
+
+## :new: Alterações
+
+Depois da maratona realizei as seguintes alterações e adições:
+
+- Mudança do banco de dados para MongoDB (utilizando biblioteca Mongoose)
+- Login e registro com confirmação por email
+- Recuperação de senha
+- Alteração de senha e email, além de exclusão total da conta
+- Para propósitos de visualização: login sem necessidade de registro
+- Possibilidade do usuário finalizar ou recomeçar jobs quando quiser
+- Aviso quando o usuário editar ou adicionar um job que ultrapasse suas horas diárias de trabalho
+
+Você pode ver o projeto com essas alterações <a href="https://discover02-jobscalc.herokuapp.com/" target="_blank">clicando aqui</a>
 
 ## 🚀 Tecnologias
 
