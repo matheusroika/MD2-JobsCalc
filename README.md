@@ -34,8 +34,6 @@ Depois da maratona realizei as seguintes alterações e adições:
 - Possibilidade do usuário finalizar ou recomeçar jobs quando quiser
 - Aviso quando o usuário editar ou adicionar um job que ultrapasse suas horas diárias de trabalho
 
-Você pode ver o projeto com essas alterações <a href="https://discover02-jobscalc.herokuapp.com/" target="_blank">clicando aqui</a>
-
 ## 🚀 Tecnologias
 
 Esse projeto foi desenvolvido com as seguintes tecnologias:
